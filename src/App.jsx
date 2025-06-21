@@ -518,17 +518,15 @@ function App() {
                 message: "In every lifetime, in every universe, I would find you and choose you again and again. Your love is my destiny, a promise written in the stars, a commitment that transcends time and space, binding us eternally."
               }
             ].map((item, i) => {
-              const [isExpanded, setIsExpanded] = useState(false);
+              const [expandedIndex, setExpandedIndex] = useState(null);
               const previewText = item.message.substring(0, 50) + "...";
 
               const handleExpand = (index) => {
-                setIsExpanded(true);
-                // Unexpand all other messages
-                document.querySelectorAll('.message-container').forEach((el, idx) => {
-                  if (idx !== i) {
-                    el.querySelector('button')?.click();
-                  }
-                });
+                if (expandedIndex === index) {
+                  setExpandedIndex(null); // Unexpand jika yang sama diklik lagi
+                } else {
+                  setExpandedIndex(index); // Expand yang baru, otomatis unexpand yang lama
+                }
               };
 
               return (
@@ -536,7 +534,7 @@ function App() {
                   key={i}
                   className="message-container inline-block w-64 h-64 transition-all duration-500 ease-in-out"
                 >
-                  {!isExpanded && (
+                  {!expandedIndex && (
                     <div 
                       className="p-4 bg-white rounded-2xl shadow-lg border-4 border-dynamic-heart hover:shadow-xl cursor-pointer flex flex-col items-center text-center h-full"
                       onClick={() => handleExpand(i)}
@@ -546,15 +544,15 @@ function App() {
                       <p className="text-sm text-gray-700 leading-tight line-clamp-3">{previewText}</p>
                     </div>
                   )}
-                  {isExpanded && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md">
+                  {expandedIndex === i && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md" onClick={() => setExpandedIndex(null)}>
                       <div className="p-8 bg-white rounded-2xl shadow-2xl border-4 border-dynamic-heart-expanded flex flex-col items-center text-center relative overflow-hidden max-w-3xl w-full">
                         <div className="absolute inset-0 border-4 border-transparent rounded-2xl clip-heart"></div>
                         <div className="text-6xl mb-4 animate-pulse-slow text-rose-500 z-10">{item.emoji}</div>
                         <h3 className="text-3xl font-bold text-rose-700 mb-4 animate-fadeIn-up z-10">{item.title}</h3>
                         <p className="text-lg text-gray-700 leading-relaxed z-10 mb-6">{item.message}</p>
                         <button
-                          onClick={(e) => { e.stopPropagation(); setIsExpanded(false); }}
+                          onClick={(e) => { e.stopPropagation(); setExpandedIndex(null); }}
                           className="px-6 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-full hover:from-rose-600 hover:to-pink-600 transition-all z-10"
                         >
                           Unexpand
