@@ -3,21 +3,52 @@ import "./App.css";
 
 function App() {
   const [count, setCount] = useState(0);
-  const [notes, setNotes] = useState([]);
-  const [noteInput, setNoteInput] = useState("");
   const [showHearts, setShowHearts] = useState(false);
   const [showLoveLetter, setShowLoveLetter] = useState(false);
   const [typedText, setTypedText] = useState("");
   const [typingIndex, setTypingIndex] = useState(0);
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+  const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const audioRef = useRef(null);
 
   // Refs for smooth scrolling to sections
   const aboutRef = useRef(null);
   const appreciationRef = useRef(null);
-  const notesRef = useRef(null);
   const memoriesRef = useRef(null);
+
+  // Music playlist
+  const songs = [
+    {
+      title: "Romantic Piano",
+      url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+    },
+    {
+      title: "Love Melody",
+      url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+    },
+    {
+      title: "Sweet Violin",
+      url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+    }
+  ];
+
+  // Photo gallery with romantic captions
+  const photos = [
+    {
+      url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
+      caption: "The day my heart found its home"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+      caption: "Our laughter echoes in my soul"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1518495973542-4542c06a5843",
+      caption: "Forever isn't long enough with you"
+    }
+  ];
 
   // Love quotes for the typing effect
   const loveQuotes = [
@@ -57,28 +88,7 @@ function App() {
     }
   }, [typedText, showLoveLetter, typingIndex]);
 
-  // Handle adding love notes
-  const addNote = () => {
-    if (noteInput.trim()) {
-      setNotes([{ id: Date.now(), text: noteInput, date: new Date().toLocaleString() }, ...notes]);
-      setNoteInput("");
-      setShowHearts(true);
-      setTimeout(() => setShowHearts(false), 2000);
-    }
-  };
-
-  // Handle deleting love notes
-  const deleteNote = (id) => {
-    setNotes(notes.filter((note) => note.id !== id));
-  };
-
-  // Smooth scroll to section
-  const scrollToSection = (ref) => {
-    ref.current.scrollIntoView({ behavior: "smooth" });
-    setIsMenuOpen(false);
-  };
-
-  // Toggle romantic music
+  // Handle music play/pause
   const toggleMusic = () => {
     if (isPlayingMusic) {
       audioRef.current.pause();
@@ -86,6 +96,38 @@ function App() {
       audioRef.current.play().catch((error) => console.log("Audio play failed:", error));
     }
     setIsPlayingMusic(!isPlayingMusic);
+  };
+
+  // Handle next song
+  const nextSong = () => {
+    setCurrentSongIndex((prev) => (prev + 1) % songs.length);
+    if (isPlayingMusic) {
+      audioRef.current.play().catch((error) => console.log("Audio play failed:", error));
+    }
+  };
+
+  // Handle previous song
+  const prevSong = () => {
+    setCurrentSongIndex((prev) => (prev - 1 + songs.length) % songs.length);
+    if (isPlayingMusic) {
+      audioRef.current.play().catch((error) => console.log("Audio play failed:", error));
+    }
+  };
+
+  // Handle next photo
+  const nextPhoto = () => {
+    setCurrentPhotoIndex((prev) => (prev + 1) % photos.length);
+  };
+
+  // Handle previous photo
+  const prevPhoto = () => {
+    setCurrentPhotoIndex((prev) => (prev - 1 + photos.length) % photos.length);
+  };
+
+  // Smooth scroll to section
+  const scrollToSection = (ref) => {
+    ref.current.scrollIntoView({ behavior: "smooth" });
+    setIsMenuOpen(false);
   };
 
   // Close menu when clicking outside
@@ -102,11 +144,21 @@ function App() {
     };
   }, []);
 
+  // Update audio source when song changes
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.load();
+      if (isPlayingMusic) {
+        audioRef.current.play().catch((error) => console.log("Audio play failed:", error));
+      }
+    }
+  }, [currentSongIndex]);
+
   return (
     <div className="min-h-screen bg-pink-100 flex flex-col items-center text-center font-sans relative overflow-hidden">
-      {/* Hidden audio element for romantic music */}
+      {/* Hidden audio element */}
       <audio ref={audioRef} loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
+        <source src={songs[currentSongIndex].url} type="audio/mpeg" />
       </audio>
 
       {/* Floating petals background */}
@@ -146,12 +198,17 @@ function App() {
         ))}
       </div>
 
+      {/* Fixed floating title */}
+      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-40">
+        <h1 className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-rose-600 animate-glow-pulse shadow-lg px-6 py-2 rounded-full bg-white/50 backdrop-blur-sm">
+          Untuk Rahel 💖
+        </h1>
+      </div>
+
       {/* Header */}
       <header className="fixed top-0 w-full bg-white/70 backdrop-blur-md z-30 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-rose-600 animate-glow">
-            My Eternal Love 💖
-          </h1>
+          <div className="w-8"></div> {/* Spacer for balance */}
           
           {/* Mobile menu button */}
           <button 
@@ -181,18 +238,32 @@ function App() {
             >
               My Heart
             </button>
-            <button
-              onClick={() => scrollToSection(notesRef)}
-              className="text-rose-600 hover:text-rose-800 transition hover:scale-105 text-sm md:text-base"
-            >
-              Love Letters
-            </button>
-            <button
-              onClick={toggleMusic}
-              className={`p-2 rounded-full ${isPlayingMusic ? 'bg-rose-100 text-rose-700' : 'bg-pink-100 text-pink-700'} text-sm md:text-base`}
-            >
-              {isPlayingMusic ? '♫' : '♫'}
-            </button>
+            <div className="flex items-center gap-2 ml-4">
+              <button
+                onClick={prevSong}
+                className="text-rose-600 hover:text-rose-800 transition"
+                title="Previous song"
+              >
+                ⏮
+              </button>
+              <button
+                onClick={toggleMusic}
+                className={`p-2 rounded-full ${isPlayingMusic ? 'bg-rose-100 text-rose-700' : 'bg-pink-100 text-pink-700'} text-sm md:text-base`}
+                title={isPlayingMusic ? 'Pause music' : 'Play music'}
+              >
+                {isPlayingMusic ? '⏸' : '▶️'}
+              </button>
+              <button
+                onClick={nextSong}
+                className="text-rose-600 hover:text-rose-800 transition"
+                title="Next song"
+              >
+                ⏭
+              </button>
+              <span className="text-xs text-rose-600 hidden sm:block">
+                {songs[currentSongIndex].title}
+              </span>
+            </div>
           </nav>
         </div>
         
@@ -218,18 +289,33 @@ function App() {
               >
                 My Heart
               </button>
-              <button
-                onClick={() => scrollToSection(notesRef)}
-                className="text-left py-2 text-rose-600 hover:text-rose-800 transition"
-              >
-                Love Letters
-              </button>
-              <button
-                onClick={toggleMusic}
-                className={`text-left py-2 ${isPlayingMusic ? 'text-rose-700' : 'text-pink-700'} transition`}
-              >
-                {isPlayingMusic ? '♫ Pause Music' : '♫ Play Music'}
-              </button>
+              <div className="pt-2 border-t border-rose-100 mt-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-rose-600">Music: {songs[currentSongIndex].title}</span>
+                </div>
+                <div className="flex justify-center gap-4 mt-3">
+                  <button
+                    onClick={prevSong}
+                    className="text-rose-600 hover:text-rose-800 transition"
+                    title="Previous song"
+                  >
+                    ⏮
+                  </button>
+                  <button
+                    onClick={toggleMusic}
+                    className={`p-2 rounded-full ${isPlayingMusic ? 'bg-rose-100 text-rose-700' : 'bg-pink-100 text-pink-700'}`}
+                  >
+                    {isPlayingMusic ? '⏸ Pause' : '▶️ Play'}
+                  </button>
+                  <button
+                    onClick={nextSong}
+                    className="text-rose-600 hover:text-rose-800 transition"
+                    title="Next song"
+                  >
+                    ⏭
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -237,7 +323,7 @@ function App() {
 
       {/* Hero Section */}
       <section className="min-h-screen flex flex-col items-center justify-center z-10 w-full px-4 pt-20 pb-10">
-        <div className="relative">
+        <div className="relative mb-8 sm:mb-12">
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-700 to-rose-700 animate-pulse mb-6">
             My Heart Belongs to You 💕
           </h1>
@@ -296,6 +382,43 @@ function App() {
             </div>
           </div>
         )}
+      </section>
+
+      {/* Photo Gallery Section */}
+      <section className="py-12 sm:py-16 md:py-20 w-full bg-white/90 backdrop-blur-sm z-10 relative px-4">
+        <div className="max-w-3xl mx-auto">
+          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-2xl h-64 sm:h-80 md:h-96 mb-6 group">
+            <img
+              src={photos[currentPhotoIndex].url}
+              alt={`Moment ${currentPhotoIndex + 1}`}
+              className="w-full h-full object-cover transform transition-all duration-500 ease-in-out"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
+              <p className="text-white text-lg sm:text-xl md:text-2xl font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                {photos[currentPhotoIndex].caption}
+              </p>
+            </div>
+            
+            {/* Navigation arrows */}
+            <button
+              onClick={prevPhoto}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-rose-600 p-2 rounded-full shadow-md transition-all duration-300 hover:scale-110"
+            >
+              ❮
+            </button>
+            <button
+              onClick={nextPhoto}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-rose-600 p-2 rounded-full shadow-md transition-all duration-300 hover:scale-110"
+            >
+              ❯
+            </button>
+            
+            {/* Photo counter */}
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white/80 text-rose-600 px-3 py-1 rounded-full text-sm shadow">
+              {currentPhotoIndex + 1} / {photos.length}
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* About You Section */}
@@ -410,62 +533,39 @@ function App() {
         </div>
       </section>
 
-      {/* Love Notes Section */}
-      <section ref={notesRef} className="py-12 sm:py-16 md:py-20 w-full bg-white/90 backdrop-blur-sm z-10 px-4">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-rose-600 mb-6 sm:mb-8 animate-fadeIn relative">
+      {/* Interactive Love Messages */}
+      <section className="py-12 sm:py-16 md:py-20 w-full bg-white/90 backdrop-blur-sm z-10 px-4">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-rose-600 mb-8 sm:mb-10 md:mb-12 animate-fadeIn relative">
           <span className="relative inline-block">
-            Our Secret Letters
+            Messages From My Heart
             <span className="absolute -bottom-1 sm:-bottom-2 left-0 right-0 h-0.5 sm:h-1 bg-gradient-to-r from-transparent via-rose-400 to-transparent"></span>
           </span>
         </h2>
         
-        <div className="max-w-2xl mx-auto">
-          <p className="text-gray-600 text-sm sm:text-base mb-6 sm:mb-8 leading-relaxed">
-            Whisper your heart's desires, my love. Every word you write becomes a treasure I'll cherish forever.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mb-6 sm:mb-8">
-            <input
-              type="text"
-              value={noteInput}
-              onChange={(e) => setNoteInput(e.target.value)}
-              placeholder="Write your love letter here..."
-              className="flex-1 p-3 sm:p-4 border border-rose-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-transparent text-sm sm:text-base"
-              onKeyPress={(e) => e.key === 'Enter' && addNote()}
-            />
-            <button
-              onClick={addNote}
-              className="px-4 py-3 sm:px-6 sm:py-4 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-lg hover:from-rose-600 hover:to-pink-600 transition-all shadow-md flex items-center justify-center text-sm sm:text-base"
-            >
-              <span className="mr-1 sm:mr-2">Send</span> ✉️
-            </button>
-          </div>
-          
-          <div className="space-y-3 sm:space-y-4 max-h-80 sm:max-h-96 overflow-y-auto pr-2">
-            {notes.length === 0 ? (
-              <div className="p-6 sm:p-8 text-center bg-rose-50 rounded-lg border border-dashed border-rose-200">
-                <p className="text-rose-500 text-sm sm:text-base">No love letters yet... Write your first one!</p>
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-6">
+            {[
+              { emoji: "💌", text: "Love Letter" },
+              { emoji: "🌹", text: "For You" },
+              { emoji: "💕", text: "My Love" },
+              { emoji: "✨", text: "You Shine" },
+              { emoji: "🥰", text: "Adore You" },
+              { emoji: "💘", text: "Be Mine" },
+              { emoji: "💝", text: "My Gift" },
+              { emoji: "💖", text: "Forever" }
+            ].map((item, i) => (
+              <div 
+                key={i}
+                className="p-4 bg-rose-50 rounded-xl shadow-sm border border-rose-200 hover:shadow-md transition-all duration-300 transform hover:scale-105 cursor-pointer"
+                onClick={() => {
+                  setShowHearts(true);
+                  setTimeout(() => setShowHearts(false), 2000);
+                }}
+              >
+                <div className="text-4xl mb-2 animate-bounce">{item.emoji}</div>
+                <p className="text-sm text-rose-700 font-medium">{item.text}</p>
               </div>
-            ) : (
-              notes.map((note) => (
-                <div
-                  key={note.id}
-                  className="flex justify-between items-start p-3 sm:p-4 md:p-5 bg-white rounded-lg sm:rounded-xl shadow-sm hover:shadow-md transition-shadow border-l-4 border-rose-400 group"
-                >
-                  <div>
-                    <p className="text-sm sm:text-base text-gray-700">{note.text}</p>
-                    <p className="text-xs text-gray-400 mt-1">{note.date}</p>
-                  </div>
-                  <button
-                    onClick={() => deleteNote(note.id)}
-                    className="text-rose-400 hover:text-rose-600 opacity-70 group-hover:opacity-100 transition-opacity text-sm sm:text-base"
-                    aria-label="Delete note"
-                  >
-                    ✕
-                  </button>
-                </div>
-              ))
-            )}
+            ))}
           </div>
         </div>
       </section>

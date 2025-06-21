@@ -1,4 +1,3 @@
-/* Custom Animations */
 @keyframes float {
   0% {
     transform: translateY(0) rotate(0deg);
@@ -10,73 +9,73 @@
   }
 }
 
-.animate-float {
-  animation: float 2s ease-out forwards;
+@keyframes beat {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
+@keyframes glow-pulse {
+  0% { 
+    text-shadow: 0 0 5px rgba(236, 72, 153, 0.5);
+    transform: scale(1);
   }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
+  50% { 
+    text-shadow: 0 0 20px rgba(236, 72, 153, 0.8);
+    transform: scale(1.05);
   }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 1s ease-in forwards;
+  100% { 
+    text-shadow: 0 0 5px rgba(236, 72, 153, 0.5);
+    transform: scale(1);
+  }
 }
 
 @keyframes twinkle {
-  0%, 100% {
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 0.6;
-  }
-}
-
-.animate-twinkle > div {
-  animation: twinkle 3s ease-in-out infinite;
-}
-
-@keyframes glow {
-  0%, 100% {
-    text-shadow: 0 0 5px rgba(251, 113, 133, 0.5);
-  }
-  50% {
-    text-shadow: 0 0 15px rgba(251, 113, 133, 0.8);
-  }
-}
-
-.animate-glow {
-  animation: glow 2s ease-in-out infinite;
-}
-
-@keyframes beat {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-}
-
-.animate-beat {
-  animation: beat 1s ease-in-out infinite;
+  0% { opacity: 0.2; }
+  50% { opacity: 1; }
+  100% { opacity: 0.2; }
 }
 
 @keyframes blink {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float {
+  animation: float linear forwards;
+}
+
+.animate-beat {
+  animation: beat 1s infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 2s infinite;
+}
+
+.animate-twinkle {
+  animation: twinkle 4s infinite;
 }
 
 .animate-blink {
-  animation: blink 1s step-end infinite;
+  animation: blink 1s infinite;
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.8s ease-out forwards;
 }
