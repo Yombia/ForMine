@@ -1,60 +1,65 @@
-/* Custom Animations */
 @keyframes float {
   0% {
-    transform: translateY(0) scale(1);
+    transform: translateY(0) rotate(0deg);
     opacity: 1;
   }
   100% {
-    transform: translateY(-100px) scale(1.5);
+    transform: translateY(-100vh) rotate(360deg);
     opacity: 0;
   }
 }
 
-.animate-float {
-  animation: float 2s ease-out forwards;
+@keyframes beat {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@keyframes glow {
+  0% { text-shadow: 0 0 5px rgba(236, 72, 153, 0.5); }
+  50% { text-shadow: 0 0 20px rgba(236, 72, 153, 0.8); }
+  100% { text-shadow: 0 0 5px rgba(236, 72, 153, 0.5); }
 }
 
-.animate-fadeIn {
-  animation: fadeIn 1s ease-in forwards;
+@keyframes twinkle {
+  0% { opacity: 0.2; }
+  50% { opacity: 1; }
+  100% { opacity: 0.2; }
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 @keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-float {
+  animation: float linear forwards;
+}
+
+.animate-beat {
+  animation: beat 1s infinite;
+}
+
+.animate-glow {
+  animation: glow 2s infinite;
+}
+
+.animate-twinkle {
+  animation: twinkle 4s infinite;
+}
+
+.animate-blink {
+  animation: blink 1s infinite;
 }
 
 .animate-gradient {
   background-size: 200% 200%;
-  animation: gradient 12s ease infinite;
-}
-
-@keyframes twinkle {
-  0%, 100% {
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 0.6;
-  }
-}
-
-.animate-twinkle > div {
-  animation: twinkle 3s ease-in-out infinite;
+  animation: gradient 10s ease infinite;
 }
