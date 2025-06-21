@@ -458,14 +458,34 @@ function App() {
         </div>
       </section>
 
-      {/* Love Messages Section */}
-      <section ref={messagesRef} className="py-20 w-full bg-rose-50/95 backdrop-blur-sm z-10 relative px-4">
-        <h2 className="text-5xl font-bold text-rose-600 mb-16 text-center">
+{/* Love Messages Section */}
+      <section ref={messagesRef} className="py-20 w-full bg-gradient-to-br from-rose-50/90 to-pink-100/80 backdrop-blur-sm z-10 relative px-4 overflow-hidden">
+        <h2 className="text-5xl font-bold text-rose-600 mb-16 text-center relative animate-fadeIn">
           Messages From My Heart
+          <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-pink-300 via-rose-400 to-pink-300"></span>
         </h2>
         
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-3 gap-8">
+        <div className="max-w-6xl mx-auto relative">
+          {/* Decorative Petals */}
+          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+            {[...Array(20)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute text-pink-300 opacity-50 animate-float-slow"
+                style={{
+                  fontSize: `${Math.random() * 16 + 8}px`,
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 10}s`,
+                  transform: `rotate(${Math.random() * 360}deg)`
+                }}
+              >
+                ❀
+              </div>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 z-10 relative">
             {[
               { 
                 emoji: "💌", 
@@ -500,15 +520,19 @@ function App() {
             ].map((item, i) => (
               <div 
                 key={i}
-                className="p-8 bg-white rounded-2xl shadow-lg border-2 border-rose-100 hover:shadow-xl transition-all duration-300 transform hover:scale-[1.03] cursor-pointer flex flex-col items-center text-center"
+                className="p-6 sm:p-8 bg-white rounded-2xl shadow-lg border-4 border-heart hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.05] cursor-pointer flex flex-col items-center text-center relative overflow-hidden"
                 onClick={() => {
                   setShowHearts(true);
                   setTimeout(() => setShowHearts(false), 2000);
                 }}
               >
-                <div className="text-6xl mb-4 animate-bounce">{item.emoji}</div>
-                <h3 className="text-2xl font-bold text-rose-700 mb-3">{item.title}</h3>
-                <p className="text-lg text-gray-700">"{item.message}"</p>
+                {/* Heart Border Effect */}
+                <div className="absolute inset-0 border-4 border-transparent rounded-2xl clip-heart"></div>
+                
+                <div className="text-6xl mb-4 animate-pulse-slow text-rose-500">{item.emoji}</div>
+                <h3 className="text-2xl font-bold text-rose-700 mb-3 animate-fadeIn-up">{item.title}</h3>
+                <p className="text-lg text-gray-700 leading-relaxed">{item.message}</p>
+                <div className="absolute -bottom-2 right-2 text-rose-300 animate-bounce-slow">💕</div>
               </div>
             ))}
           </div>
@@ -550,10 +574,10 @@ function App() {
               <span className="text-4xl text-rose-600">💝</span>
             </div>
             <p className="text-2xl text-rose-700 mb-4 font-medium text-center">
-              Made with endless love for you, my forever
+              Aku mencintaimu dan akan selalu begitu, Love you kel
             </p>
             <p className="text-lg text-rose-600 mb-8 text-center">
-              © {new Date().getFullYear()} With all my heart, from Yombia
+              With all my heart, from Yos
             </p>
             <button 
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
