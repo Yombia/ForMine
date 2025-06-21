@@ -384,42 +384,73 @@ function App() {
         )}
       </section>
 
-      {/* Photo Gallery Section */}
-      <section className="py-12 sm:py-16 md:py-20 w-full bg-white/90 backdrop-blur-sm z-10 relative px-4">
-        <div className="max-w-3xl mx-auto">
-          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-2xl h-64 sm:h-80 md:h-96 mb-6 group">
-            <img
-              src={photos[currentPhotoIndex].url}
-              alt={`Moment ${currentPhotoIndex + 1}`}
-              className="w-full h-full object-cover transform transition-all duration-500 ease-in-out"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
-              <p className="text-white text-lg sm:text-xl md:text-2xl font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                {photos[currentPhotoIndex].caption}
-              </p>
-            </div>
-            
-            {/* Navigation arrows */}
-            <button
-              onClick={prevPhoto}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-rose-600 p-2 rounded-full shadow-md transition-all duration-300 hover:scale-110"
-            >
-              ❮
-            </button>
-            <button
-              onClick={nextPhoto}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-rose-600 p-2 rounded-full shadow-md transition-all duration-300 hover:scale-110"
-            >
-              ❯
-            </button>
-            
-            {/* Photo counter */}
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white/80 text-rose-600 px-3 py-1 rounded-full text-sm shadow">
-              {currentPhotoIndex + 1} / {photos.length}
-            </div>
-          </div>
-        </div>
-      </section>
+ {/* Enhanced Photo Gallery Section */}
+<section className="py-12 sm:py-16 md:py-20 w-full bg-white/90 backdrop-blur-sm z-10 relative px-4">
+  <div className="max-w-4xl mx-auto">
+    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-rose-600 mb-8 sm:mb-10 md:mb-12 text-center">
+      Our Precious Moments
+    </h2>
+    
+    {/* Main photo display */}
+    <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-2xl h-64 sm:h-80 md:h-96 mb-6 group">
+      <img
+        src={photos[currentPhotoIndex].url}
+        alt={`Moment ${currentPhotoIndex + 1}`}
+        className="w-full h-full object-cover transform transition-all duration-500 ease-in-out"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex items-end p-6">
+        <p className="text-white text-lg sm:text-xl md:text-2xl font-medium">
+          {photos[currentPhotoIndex].caption}
+        </p>
+      </div>
+      
+      {/* Navigation arrows */}
+      <button
+        onClick={prevPhoto}
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-rose-600 p-3 rounded-full shadow-md transition-all duration-300 hover:scale-110"
+      >
+        ❮
+      </button>
+      <button
+        onClick={nextPhoto}
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-rose-600 p-3 rounded-full shadow-md transition-all duration-300 hover:scale-110"
+      >
+        ❯
+      </button>
+    </div>
+    
+    {/* Custom message container below photo */}
+    <div className="bg-rose-50 rounded-lg p-6 mb-8 border border-rose-200 shadow-sm">
+      <h3 className="text-xl font-bold text-rose-700 mb-3">My Message for This Moment:</h3>
+      <p className="text-gray-700">
+        {[
+          "This was the day I knew you were the one for me...",
+          "Your smile in this photo makes my heart skip a beat every time I see it.",
+          "I remember this moment like it was yesterday - pure happiness with you.",
+          "This trip changed everything between us, for the better.",
+          "Looking at this photo reminds me why I fell in love with you."
+        ][currentPhotoIndex]}
+      </p>
+    </div>
+    
+    {/* Photo counter and navigation dots */}
+    <div className="flex flex-col items-center">
+      <div className="mb-4 bg-white/80 text-rose-600 px-4 py-2 rounded-full text-sm shadow">
+        Memory {currentPhotoIndex + 1} of {photos.length}
+      </div>
+      <div className="flex gap-2">
+        {photos.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentPhotoIndex(index)}
+            className={`w-3 h-3 rounded-full transition-all ${currentPhotoIndex === index ? 'bg-rose-600 scale-125' : 'bg-rose-300'}`}
+            aria-label={`Go to photo ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* About You Section */}
       <section ref={aboutRef} className="py-12 sm:py-16 md:py-20 w-full bg-rose-50/90 backdrop-blur-sm z-10 relative px-4">
