@@ -44,87 +44,124 @@ function App() {
     <div className="min-h-screen bg-pink-100 flex flex-col items-center text-center font-sans relative overflow-hidden">
       {/* Animated Background */}
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-pink-200 via-rose-200 to-purple-200 animate-gradient"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-pink-300 via-rose-300 to-purple-300 animate-gradient"></div>
         <div className="absolute inset-0 opacity-20 animate-twinkle">
           {[...Array(50)].map((_, i) => (
             <div
               key={i}
               className="absolute rounded-full bg-white"
               style={{
-                width: `${Math.random() * 4 + 2}px`,
-                height: `${Math.random() * 4 + 2}px`,
+                width: `${Math.random() * 3 + 1}px`,
+                height: `${Math.random() * 3 + 1}px`,
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
+                animationDelay: `${Math.random() * 4}s`,
               }}
             ></div>
           ))}
         </div>
       </div>
 
+      {/* Header */}
+      <header className="fixed top-0 w-full bg-white/70 backdrop-blur-md z-30 shadow-sm">
+        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+          <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-rose-600">
+            My Love 💖
+          </h1>
+          <nav className="flex gap-4">
+            <button
+              onClick={() => scrollToSection(photosRef)}
+              className="text-rose-600 hover:text-rose-800 transition"
+            >
+              Photos
+            </button>
+            <button
+              onClick={() => scrollToSection(aboutRef)}
+              className="text-rose-600 hover:text-rose-800 transition"
+            >
+              About You
+            </button>
+            <button
+              onClick={() => scrollToSection(appreciationRef)}
+              className="text-rose-600 hover:text-rose-800 transition"
+            >
+              Appreciation
+            </button>
+            <button
+              onClick={() => scrollToSection(notesRef)}
+              className="text-rose-600 hover:text-rose-800 transition"
+            >
+              Notes
+            </button>
+          </nav>
+        </div>
+      </header>
+
       {/* Hero Section */}
-      <header className="min-h-screen flex flex-col items-center justify-center z-10 w-full px-4">
-        <h1 className="text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-rose-600 animate-pulse mb-6">
-          To My Dearest 💖
+      <section className="min-h-screen flex flex-col items-center justify-center z-10 w-full px-4 pt-20">
+        <h1 className="text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-700 to-rose-700 animate-pulse mb-6">
+          My Heart is Yours 💕
         </h1>
-        <p className="text-2xl text-rose-700 mb-8 animate-fadeIn max-w-lg">
-          A digital love letter filled with my heart, just for you.
+        <p className="text-3xl text-rose-800 mb-10 animate-fadeIn max-w-xl">
+          A digital embrace crafted with love, just for you, my darling.
         </p>
         <div className="flex flex-wrap gap-4 justify-center">
           <button
             onClick={() => scrollToSection(photosRef)}
-            className="px-8 py-3 bg-pink-500 text-white rounded-full hover:bg-pink-600 transition-all duration-300 shadow-lg"
+            className="px-10 py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full hover:from-pink-600 hover:to-rose-600 transition-all duration-300 shadow-lg text-lg"
           >
             Our Moments 📸
           </button>
           <button
             onClick={() => scrollToSection(aboutRef)}
-            className="px-8 py-3 bg-rose-500 text-white rounded-full hover:bg-rose-600 transition-all duration-300 shadow-lg"
+            className="px-10 py-4 bg-gradient-to-r from-rose-500 to-purple-500 text-white rounded-full hover:from-rose-600 hover:to-purple-600 transition-all duration-300 shadow-lg text-lg"
           >
             About You 💞
           </button>
           <button
             onClick={() => scrollToSection(appreciationRef)}
-            className="px-8 py-3 bg-purple-500 text-white rounded-full hover:bg-purple-600 transition-all duration-300 shadow-lg"
+            className="px-10 py-4 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full hover:from-purple-600 hover:to-indigo-600 transition-all duration-300 shadow-lg text-lg"
           >
             My Appreciation 🌹
           </button>
           <button
             onClick={() => scrollToSection(notesRef)}
-            className="px-8 py-3 bg-indigo-500 text-white rounded-full hover:bg-indigo-600 transition-all duration-300 shadow-lg"
+            className="px-10 py-4 bg-gradient-to-r from-indigo-500 to-pink-500 text-white rounded-full hover:from-indigo-600 hover:to-pink-600 transition-all duration-300 shadow-lg text-lg"
           >
             Love Notes 💌
           </button>
         </div>
-      </header>
+      </section>
 
       {/* Photos Section */}
       <section ref={photosRef} className="py-16 w-full bg-white/80 backdrop-blur-sm z-10">
         <h2 className="text-5xl font-bold text-rose-600 mb-8 animate-fadeIn">
-          Our Cherished Moments 📸
+          Our Precious Moments 📸
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto px-4">
-          {[
-            "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
-            "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
-            "https://images.unsplash.com/photo-1518495973542-4542c06a5843",
-          ].map((src, i) => (
-            <div
-              key={i}
-              className="relative overflow-hidden rounded-xl shadow-lg group"
-            >
-              <img
-                src={src}
-                alt={`Moment ${i + 1}`}
-                className="w-full h-64 object-cover transform group-hover:scale-110 transition-all duration-500"
-              />
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <p className="text-white text-lg font-semibold">
-                  Moment #{i + 1}
-                </p>
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="flex flex-wrap justify-center gap-4">
+            {[
+              "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
+              "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+              "https://images.unsplash.com/photo-1518495973542-4542c06a5843",
+            ].map((src, i) => (
+              <div
+                key={i}
+                className="relative overflow-hidden rounded-xl shadow-lg group w-60 h-60"
+              >
+                <img
+                  src={src}
+                  alt={`Moment ${i + 1}`}
+                  className="w-full h-full object-cover transform group-hover:scale-105 transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-rose-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <p className="text-white text-lg font-semibold">
+                    Moment #{i + 1}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
@@ -135,10 +172,10 @@ function App() {
         </h2>
         <div className="max-w-2xl mx-auto px-4">
           <p className="text-gray-700 text-lg leading-relaxed mb-4 animate-fadeIn">
-            You light up my world in ways I never thought possible. Your smile is my sunrise, and your laughter is my favorite song.
+            Your presence turns every moment into magic. Your smile is my guiding star, and your love is my greatest treasure.
           </p>
           <p className="text-gray-700 text-lg leading-relaxed mb-4 animate-fadeIn">
-            Every moment with you feels like a gift, and I’m endlessly grateful for your love, kindness, and the way you make everything better.
+            I’m endlessly grateful for you—your warmth, your laughter, and the way you make my heart soar.
           </p>
           <button
             onClick={() => setCount(count + 1)}
@@ -156,9 +193,9 @@ function App() {
         </h2>
         <div className="max-w-4xl mx-auto px-4 grid gap-6">
           {[
-            "Thank you for being my safe haven and my greatest adventure.",
-            "Your kindness inspires me to be a better person every day.",
-            "With you, every ordinary moment becomes extraordinary.",
+            "You make every day brighter with your endless kindness.",
+            "Thank you for being my rock and my joy in every moment.",
+            "Your love transforms the ordinary into something extraordinary.",
           ].map((quote, i) => (
             <div
               key={i}
@@ -178,7 +215,7 @@ function App() {
         </h2>
         <div className="max-w-lg mx-auto px-4">
           <p className="text-gray-600 text-lg mb-6 leading-relaxed">
-            Write down your thoughts, and let’s fill this space with love.
+            Pour your heart out here, my love.
           </p>
           <div className="flex gap-2 mb-6">
             <input
@@ -233,8 +270,16 @@ function App() {
         </div>
       )}
 
-      <footer className="py-8 text-sm text-rose-700 animate-fadeIn z-10">
-        © {new Date().getFullYear()} With all my love, from Yombia 💕
+      {/* Footer */}
+      <footer className="py-12 w-full bg-white/70 backdrop-blur-md z-10">
+        <div className="max-w-6xl mx-auto px-4">
+          <p className="text-rose-700 text-lg mb-4">
+            Made with endless love for you, my forever.
+          </p>
+          <p className="text-rose-600 text-sm">
+            © {new Date().getFullYear()} With all my heart, from Yombia 💕
+          </p>
+        </div>
       </footer>
     </div>
   );
