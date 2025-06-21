@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import "./App.css";
 
 function App() {
+  // State management
   const [count, setCount] = useState(0);
   const [showHearts, setShowHearts] = useState(false);
   const [showLoveLetter, setShowLoveLetter] = useState(false);
@@ -11,15 +12,15 @@ function App() {
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [expandedMessageIndex, setExpandedMessageIndex] = useState(null);
+  
+  // Refs
   const audioRef = useRef(null);
-
-  // Refs for smooth scrolling to sections
   const aboutRef = useRef(null);
   const galleryRef = useRef(null);
   const memoriesRef = useRef(null);
   const messagesRef = useRef(null);
 
-  // Music playlist
+  // Data
   const songs = [
     {
       title: "Romantic Piano",
@@ -35,7 +36,6 @@ function App() {
     }
   ];
 
-  // Photo gallery with romantic captions
   const photos = [
     {
       url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
@@ -54,7 +54,6 @@ function App() {
     }
   ];
 
-  // Love quotes for the typing effect
   const loveQuotes = [
     "Every moment with you is a treasure I hold dear...",
     "Your love is the melody that plays in my heart...",
@@ -63,87 +62,6 @@ function App() {
     "Loving you is the best thing that ever happened to me..."
   ];
 
-  // Heart animation effect
-  useEffect(() => {
-    if (count > 0) {
-      setShowHearts(true);
-      const timer = setTimeout(() => setShowHearts(false), 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [count]);
-
-  // Typing effect for romantic text
-  useEffect(() => {
-    if (!showLoveLetter) return;
-
-    const currentQuote = loveQuotes[typingIndex % loveQuotes.length];
-    
-    if (typedText.length < currentQuote.length) {
-      const timeout = setTimeout(() => {
-        setTypedText(currentQuote.substring(0, typedText.length + 1));
-      }, 50);
-      return () => clearTimeout(timeout);
-    } else {
-      const timeout = setTimeout(() => {
-        setTypedText("");
-        setTypingIndex(typingIndex + 1);
-      }, 2000);
-      return () => clearTimeout(timeout);
-    }
-  }, [typedText, showLoveLetter, typingIndex]);
-
-  // Handle music play/pause
-  const toggleMusic = () => {
-    if (isPlayingMusic) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play().catch((error) => console.log("Audio play failed:", error));
-    }
-    setIsPlayingMusic(!isPlayingMusic);
-  };
-
-  // Handle next song
-  const nextSong = () => {
-    setCurrentSongIndex((prev) => (prev + 1) % songs.length);
-    if (isPlayingMusic) {
-      audioRef.current.play().catch((error) => console.log("Audio play failed:", error));
-    }
-  };
-
-  // Handle previous song
-  const prevSong = () => {
-    setCurrentSongIndex((prev) => (prev - 1 + songs.length) % songs.length);
-    if (isPlayingMusic) {
-      audioRef.current.play().catch((error) => console.log("Audio play failed:", error));
-    }
-  };
-
-  // Handle next photo
-  const nextPhoto = () => {
-    setCurrentPhotoIndex((prev) => (prev + 1) % photos.length);
-  };
-
-  // Handle previous photo
-  const prevPhoto = () => {
-    setCurrentPhotoIndex((prev) => (prev - 1 + photos.length) % photos.length);
-  };
-
-  // Smooth scroll to section
-  const scrollToSection = (ref) => {
-    ref.current.scrollIntoView({ behavior: "smooth" });
-  };
-
-  // Update audio source when song changes
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.load();
-      if (isPlayingMusic) {
-        audioRef.current.play().catch((error) => console.log("Audio play failed:", error));
-      }
-    }
-  }, [currentSongIndex]);
-
-  // Love messages data
   const loveMessages = [
     { 
       emoji: "💌", 
@@ -177,14 +95,81 @@ function App() {
     }
   ];
 
+  // Effects
+  useEffect(() => {
+    if (count > 0) {
+      setShowHearts(true);
+      const timer = setTimeout(() => setShowHearts(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [count]);
+
+  useEffect(() => {
+    if (!showLoveLetter) return;
+
+    const currentQuote = loveQuotes[typingIndex % loveQuotes.length];
+    
+    if (typedText.length < currentQuote.length) {
+      const timeout = setTimeout(() => {
+        setTypedText(currentQuote.substring(0, typedText.length + 1));
+      }, 50);
+      return () => clearTimeout(timeout);
+    } else {
+      const timeout = setTimeout(() => {
+        setTypedText("");
+        setTypingIndex(typingIndex + 1);
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }
+  }, [typedText, showLoveLetter, typingIndex]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.load();
+      if (isPlayingMusic) {
+        audioRef.current.play().catch((error) => console.log("Audio play failed:", error));
+      }
+    }
+  }, [currentSongIndex, isPlayingMusic]);
+
+  // Handlers
+  const toggleMusic = () => {
+    if (isPlayingMusic) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play().catch((error) => console.log("Audio play failed:", error));
+    }
+    setIsPlayingMusic(!isPlayingMusic);
+  };
+
+  const nextSong = () => {
+    setCurrentSongIndex((prev) => (prev + 1) % songs.length);
+  };
+
+  const prevSong = () => {
+    setCurrentSongIndex((prev) => (prev - 1 + songs.length) % songs.length);
+  };
+
+  const nextPhoto = () => {
+    setCurrentPhotoIndex((prev) => (prev + 1) % photos.length);
+  };
+
+  const prevPhoto = () => {
+    setCurrentPhotoIndex((prev) => (prev - 1 + photos.length) % photos.length);
+  };
+
+  const scrollToSection = (ref) => {
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-rose-50 flex flex-col items-center text-center font-serif relative overflow-x-hidden">
-      {/* Hidden audio element */}
+      {/* Audio Element */}
       <audio ref={audioRef} loop>
         <source src={songs[currentSongIndex].url} type="audio/mpeg" />
       </audio>
 
-      {/* Floating petals background */}
+      {/* Floating Petals Background */}
       <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
         {[...Array(50)].map((_, i) => (
           <div
@@ -204,7 +189,7 @@ function App() {
         ))}
       </div>
 
-      {/* Fixed floating title */}
+      {/* Header */}
       <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50">
         <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-rose-600 animate-glow-pulse shadow-xl px-8 py-3 rounded-full bg-white/80 backdrop-blur-sm border border-rose-200">
           Untuk Rahel 💖
@@ -213,55 +198,18 @@ function App() {
 
       {/* Navigation */}
       <nav className="fixed top-6 right-6 z-50 flex items-center gap-4">
-        <button
-          onClick={() => scrollToSection(aboutRef)}
-          className="text-rose-600 hover:text-rose-800 transition hover:scale-110 text-lg"
-        >
-          About Us
-        </button>
-        <button
-          onClick={() => scrollToSection(galleryRef)}
-          className="text-rose-600 hover:text-rose-800 transition hover:scale-110 text-lg"
-        >
-          Gallery
-        </button>
-        <button
-          onClick={() => scrollToSection(memoriesRef)}
-          className="text-rose-600 hover:text-rose-800 transition hover:scale-110 text-lg"
-        >
-          Memories
-        </button>
-        <button
-          onClick={() => scrollToSection(messagesRef)}
-          className="text-rose-600 hover:text-rose-800 transition hover:scale-110 text-lg"
-        >
-          Messages
-        </button>
+        <button onClick={() => scrollToSection(aboutRef)} className="text-rose-600 hover:text-rose-800 transition hover:scale-110 text-lg">About Us</button>
+        <button onClick={() => scrollToSection(galleryRef)} className="text-rose-600 hover:text-rose-800 transition hover:scale-110 text-lg">Gallery</button>
+        <button onClick={() => scrollToSection(memoriesRef)} className="text-rose-600 hover:text-rose-800 transition hover:scale-110 text-lg">Memories</button>
+        <button onClick={() => scrollToSection(messagesRef)} className="text-rose-600 hover:text-rose-800 transition hover:scale-110 text-lg">Messages</button>
+        
         <div className="flex items-center gap-2 ml-4 bg-white/80 px-3 py-1 rounded-full shadow-sm border border-rose-200">
-          <button
-            onClick={prevSong}
-            className="text-rose-600 hover:text-rose-800 transition hover:scale-110"
-            title="Previous song"
-          >
-            ⏮
-          </button>
-          <button
-            onClick={toggleMusic}
-            className={`text-lg ${isPlayingMusic ? 'text-rose-700' : 'text-pink-700'} transition hover:scale-110`}
-            title={isPlayingMusic ? 'Pause music' : 'Play music'}
-          >
+          <button onClick={prevSong} className="text-rose-600 hover:text-rose-800 transition hover:scale-110" title="Previous song">⏮</button>
+          <button onClick={toggleMusic} className={`text-lg ${isPlayingMusic ? 'text-rose-700' : 'text-pink-700'} transition hover:scale-110`} title={isPlayingMusic ? 'Pause music' : 'Play music'}>
             {isPlayingMusic ? '⏸' : '▶️'}
           </button>
-          <button
-            onClick={nextSong}
-            className="text-rose-600 hover:text-rose-800 transition hover:scale-110"
-            title="Next song"
-          >
-            ⏭
-          </button>
-          <span className="text-sm text-rose-600 ml-2">
-            {songs[currentSongIndex].title}
-          </span>
+          <button onClick={nextSong} className="text-rose-600 hover:text-rose-800 transition hover:scale-110" title="Next song">⏭</button>
+          <span className="text-sm text-rose-600 ml-2">{songs[currentSongIndex].title}</span>
         </div>
       </nav>
 
@@ -290,7 +238,6 @@ function App() {
           </button>
         </div>
         
-        {/* Animated love letter */}
         {showLoveLetter && (
           <div className="mt-16 w-full max-w-2xl bg-rose-50 rounded-xl shadow-2xl overflow-hidden transform transition-all duration-500 animate-fadeIn border-2 border-rose-200">
             <div className="p-8 bg-gradient-to-b from-rose-100 to-pink-100 border-b-2 border-rose-200">
@@ -331,7 +278,6 @@ function App() {
           </h2>
           
           <div className="relative group">
-            {/* Main photo display */}
             <div className="relative overflow-hidden rounded-2xl shadow-2xl h-[32rem]">
               <img
                 src={photos[currentPhotoIndex].url}
@@ -347,7 +293,6 @@ function App() {
                 </p>
               </div>
               
-              {/* Enhanced navigation arrows */}
               <button
                 onClick={prevPhoto}
                 className="absolute left-8 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-rose-600 p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-125 hover:shadow-xl"
@@ -362,7 +307,6 @@ function App() {
               </button>
             </div>
             
-            {/* Photo counter and navigation */}
             <div className="flex justify-between items-center mt-6">
               <div className="bg-white/90 text-rose-600 px-6 py-2 rounded-full text-lg shadow-md border border-rose-200">
                 Memory {currentPhotoIndex + 1} of {photos.length}
@@ -389,7 +333,7 @@ function App() {
             The Essence of You
           </h2>
           
-          <div className="grid grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
             <div className="text-left space-y-8">
               <div className="p-6 bg-white rounded-xl shadow-lg border-l-4 border-rose-400">
                 <h3 className="text-2xl font-bold text-rose-700 mb-4">Your Beautiful Soul</h3>
@@ -442,10 +386,8 @@ function App() {
         
         <div className="max-w-4xl mx-auto">
           <div className="relative">
-            {/* Timeline line */}
             <div className="absolute left-1/2 h-full w-1 bg-gradient-to-b from-pink-300 to-rose-300 transform -translate-x-1/2"></div>
             
-            {/* Timeline items */}
             {[
               { 
                 date: "The First Glance", 
@@ -492,87 +434,95 @@ function App() {
           </div>
         </div>
       </section>
-      
-            {/* Message items */}
-{/* Love Messages Section */}
-<section ref={messagesRef} className="py-20 w-full bg-gradient-to-br from-rose-50/90 to-pink-100/80 backdrop-blur-sm relative px-4 overflow-hidden z-10">
-  <h2 className="text-5xl font-bold text-rose-600 mb-16 text-center relative animate-fadeIn">
-    Messages From My Heart
-    <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-pink-300 via-rose-400 to-pink-300"></span>
-  </h2>
-  
-  <div className="max-w-6xl mx-auto relative">
-    {/* Decorative Petals */}
-    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-      {[...Array(20)].map((_, i) => (
-        <div
-          key={i}
-          className="absolute text-pink-300 opacity-50 animate-float-slow"
-          style={{
-            fontSize: `${Math.random() * 16 + 8}px`,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 10}s`,
-            transform: `rotate(${Math.random() * 360}deg)`
-          }}
-        >
-          ❀
-        </div>
-      ))}
-    </div>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
-      {loveMessages.map((item, i) => (
-        <div
-          key={i}
-          className="p-6 bg-white/90 rounded-2xl shadow-lg border-4 border-dynamic-heart hover:shadow-xl cursor-pointer flex flex-col items-center text-center h-full transition-all duration-300 hover:scale-105 group"
-          onClick={() => setExpandedMessageIndex(i)}
-        >
-          <div className="text-5xl mb-4 animate-pulse-slow text-rose-500 group-hover:text-rose-600 transition-colors">{item.emoji}</div>
-          <h3 className="text-xl font-bold text-rose-700 mb-3 animate-fadeIn-up">{item.title}</h3>
-          <p className="text-sm text-gray-700 leading-relaxed line-clamp-3 mb-2">{item.message.substring(0, 100)}...</p>
-          <span className="text-xs text-pink-400 mt-auto">Click to read more</span>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
+      {/* Love Messages Section */}
+      <section ref={messagesRef} className="py-20 w-full bg-gradient-to-br from-rose-50/90 to-pink-100/80 backdrop-blur-sm relative px-4 overflow-hidden z-10">
+        <h2 className="text-5xl font-bold text-rose-600 mb-16 text-center relative animate-fadeIn">
+          Messages From My Heart
+          <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-pink-300 via-rose-400 to-pink-300"></span>
+        </h2>
+        
+        <div className="max-w-6xl mx-auto relative">
+          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+            {[...Array(20)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute text-pink-300 opacity-50 animate-float-slow"
+                style={{
+                  fontSize: `${Math.random() * 16 + 8}px`,
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 10}s`,
+                  transform: `rotate(${Math.random() * 360}deg)`
+                }}
+              >
+                ❀
+              </div>
+            ))}
+          </div>
 
-{/* Fixed Modal Implementation */}
-{expandedMessageIndex !== null && (
-  <div className="fixed inset-0 z-[100] flex items-center justify-center">
-    {/* Backdrop */}
-    <div 
-      className="absolute inset-0 bg-black/50 backdrop-blur-md"
-      onClick={() => setExpandedMessageIndex(null)}
-    />
-    
-    {/* Modal Content */}
-    <div 
-      className="relative bg-white rounded-3xl shadow-2xl border-4 border-rose-400 max-w-md w-full mx-4 overflow-y-auto max-h-[90vh]"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className="p-8 flex flex-col items-center text-center">
-        <div className="text-7xl mb-6 animate-pulse text-rose-500">
-          {loveMessages[expandedMessageIndex].emoji}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
+            {loveMessages.map((item, i) => (
+              <div
+                key={i}
+                className="p-6 bg-white/90 rounded-2xl shadow-lg border-4 border-rose-300 hover:shadow-xl cursor-pointer flex flex-col items-center text-center h-full transition-all duration-300 hover:scale-105 group"
+                onClick={() => setExpandedMessageIndex(i)}
+              >
+                <div className="text-5xl mb-4 animate-pulse-slow text-rose-500 group-hover:text-rose-600 transition-colors">{item.emoji}</div>
+                <h3 className="text-xl font-bold text-rose-700 mb-3 animate-fadeIn-up">{item.title}</h3>
+                <p className="text-sm text-gray-700 leading-relaxed line-clamp-3 mb-2">{item.message.substring(0, 100)}...</p>
+                <span className="text-xs text-pink-400 mt-auto">Click to read more</span>
+              </div>
+            ))}
+          </div>
         </div>
-        <h3 className="text-3xl font-bold text-rose-700 mb-4">
-          {loveMessages[expandedMessageIndex].title}
-        </h3>
-        <div className="w-20 h-1 bg-gradient-to-r from-pink-300 to-rose-400 mb-6 rounded-full"></div>
-        <p className="text-lg text-gray-700 leading-relaxed mb-6">
-          {loveMessages[expandedMessageIndex].message}
-        </p>
-        <button
-          onClick={() => setExpandedMessageIndex(null)}
-          className="px-6 py-2 bg-rose-500 text-white rounded-full hover:bg-rose-600 transition-colors"
-        >
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+      </section>
+
+      {/* Message Modal */}
+      {expandedMessageIndex !== null && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div 
+            className="absolute inset-0 bg-black/50 backdrop-blur-md transition-opacity duration-300"
+            onClick={() => setExpandedMessageIndex(null)}
+          />
+          
+          <div 
+            className="relative bg-white rounded-3xl shadow-2xl border-4 border-rose-400 max-w-2xl w-full mx-4 overflow-hidden transform transition-all duration-300 animate-scale-in max-h-[90vh] overflow-y-auto"
+            style={{
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="p-8 sm:p-10 flex flex-col items-center text-center">
+              <div className="text-7xl mb-6 animate-pulse-slow text-rose-500">
+                {loveMessages[expandedMessageIndex].emoji}
+              </div>
+              <h3 className="text-3xl font-bold text-rose-700 mb-6">
+                {loveMessages[expandedMessageIndex].title}
+              </h3>
+              <div className="w-20 h-1 bg-gradient-to-r from-pink-300 to-rose-400 mb-6 rounded-full"></div>
+              <p className="text-lg text-gray-700 leading-relaxed mb-8 whitespace-pre-line">
+                {loveMessages[expandedMessageIndex].message}
+              </p>
+              <button
+                onClick={() => setExpandedMessageIndex(null)}
+                className="px-8 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-full hover:from-rose-600 hover:to-pink-600 transition-all shadow-lg hover:shadow-rose-300/50 flex items-center gap-2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                </svg>
+                Close
+              </button>
+            </div>
+            
+            <div className="absolute top-0 right-0 text-rose-200/60 text-8xl -mt-4 -mr-4">❦</div>
+            <div className="absolute bottom-0 left-0 text-pink-200/60 text-8xl -mb-4 -ml-4">❧</div>
+            <div className="absolute -bottom-3 right-3 text-rose-300 animate-bounce-slow text-4xl">💕</div>
+          </div>
+        </div>
+      )}
 
       {/* Heart Particle Animation */}
       {showHearts && (
