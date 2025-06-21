@@ -524,7 +524,7 @@ function App() {
             {loveMessages.map((item, i) => (
               <div
                 key={i}
-                className={`p-4 bg-white rounded-2xl shadow-lg border-4 border-dynamic-heart hover:shadow-xl cursor-pointer flex flex-col items-center text-center h-full transition-all duration-300`}
+                className="p-4 bg-white rounded-2xl shadow-lg border-4 border-dynamic-heart hover:shadow-xl cursor-pointer flex flex-col items-center text-center h-full transition-all duration-300"
                 onClick={() => setExpandedMessageIndex(i)}
               >
                 <div className="text-4xl mb-2 animate-pulse-slow text-rose-500">{item.emoji}</div>
@@ -538,19 +538,19 @@ function App() {
 
       {/* Expanded Message Modal */}
       {expandedMessageIndex !== null && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md" onClick={() => setExpandedMessageIndex(null)}>
-          <div className="p-8 bg-white rounded-2xl shadow-2xl border-4 border-dynamic-heart-expanded flex flex-col items-center text-center relative overflow-hidden max-w-3xl w-full mx-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-lg" onClick={() => setExpandedMessageIndex(null)}>
+          <div className="p-10 bg-white rounded-2xl shadow-2xl border-4 border-dynamic-heart-expanded flex flex-col items-center text-center relative overflow-hidden max-w-2xl w-full mx-auto transform translate-y-0 transition-all duration-300">
             <div className="absolute inset-0 border-4 border-transparent rounded-2xl clip-heart"></div>
-            <div className="text-6xl mb-4 animate-pulse-slow text-rose-500 z-10">{loveMessages[expandedMessageIndex].emoji}</div>
-            <h3 className="text-3xl font-bold text-rose-700 mb-4 animate-fadeIn-up z-10">{loveMessages[expandedMessageIndex].title}</h3>
-            <p className="text-lg text-gray-700 leading-relaxed z-10 mb-6">{loveMessages[expandedMessageIndex].message}</p>
+            <div className="text-6xl mb-6 animate-pulse-slow text-rose-500 z-10">{loveMessages[expandedMessageIndex].emoji}</div>
+            <h3 className="text-3xl font-bold text-rose-700 mb-6 animate-fadeIn-up z-10">{loveMessages[expandedMessageIndex].title}</h3>
+            <p className="text-lg text-gray-700 leading-relaxed z-10 mb-8">{loveMessages[expandedMessageIndex].message}</p>
             <button
               onClick={(e) => { e.stopPropagation(); setExpandedMessageIndex(null); }}
               className="px-6 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-full hover:from-rose-600 hover:to-pink-600 transition-all z-10"
             >
               Close
             </button>
-            <div className="absolute -bottom-2 right-2 text-rose-300 animate-bounce-slow z-10">💕</div>
+            <div className="absolute -bottom-3 right-3 text-rose-300 animate-bounce-slow z-10">💕</div>
           </div>
         </div>
       )}

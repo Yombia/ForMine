@@ -92,7 +92,7 @@
 
 .border-dynamic-heart-expanded {
   border-image: linear-gradient(45deg, #ff99ac, #ffccd5) 1;
-  box-shadow: 0 10px 25px rgba(255, 105, 135, 0.4), 0 0 15px rgba(255, 153, 172, 0.6);
+  box-shadow: 0 15px 30px rgba(255, 105, 135, 0.5), 0 0 20px rgba(255, 153, 172, 0.7);
   animation: glow-expand 1.5s ease-in-out infinite alternate;
 }
 
@@ -118,8 +118,8 @@
 }
 
 @keyframes glow-expand {
-  0% { box-shadow: 0 10px 25px rgba(255, 105, 135, 0.4), 0 0 10px rgba(255, 153, 172, 0.4); }
-  100% { box-shadow: 0 10px 25px rgba(255, 105, 135, 0.6), 0 0 20px rgba(255, 153, 172, 0.8); }
+  0% { box-shadow: 0 15px 30px rgba(255, 105, 135, 0.5), 0 0 15px rgba(255, 153, 172, 0.5); }
+  100% { box-shadow: 0 15px 30px rgba(255, 105, 135, 0.7), 0 0 25px rgba(255, 153, 172, 0.9); }
 }
 
 .animate-float-slow {
