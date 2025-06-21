@@ -485,7 +485,7 @@ function App() {
             ))}
           </div>
 
-          <div className="relative z-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
             {[
               { 
                 emoji: "💌", 
@@ -521,29 +521,17 @@ function App() {
               const [expandedIndex, setExpandedIndex] = useState(null);
               const previewText = item.message.substring(0, 50) + "...";
 
-              const handleExpand = (index) => {
-                if (expandedIndex === index) {
-                  setExpandedIndex(null); // Unexpand jika yang sama diklik lagi
-                } else {
-                  setExpandedIndex(index); // Expand yang baru, otomatis unexpand yang lama
-                }
-              };
-
               return (
-                <div
-                  key={i}
-                  className="message-container inline-block w-64 h-64 transition-all duration-500 ease-in-out"
-                >
-                  {!expandedIndex && (
-                    <div 
-                      className="p-4 bg-white rounded-2xl shadow-lg border-4 border-dynamic-heart hover:shadow-xl cursor-pointer flex flex-col items-center text-center h-full"
-                      onClick={() => handleExpand(i)}
-                    >
-                      <div className="text-4xl mb-2 animate-pulse-slow text-rose-500">{item.emoji}</div>
-                      <h3 className="text-xl font-bold text-rose-700 mb-2 animate-fadeIn-up">{item.title}</h3>
-                      <p className="text-sm text-gray-700 leading-tight line-clamp-3">{previewText}</p>
-                    </div>
-                  )}
+                <>
+                  <div
+                    key={i}
+                    className={`p-4 bg-white rounded-2xl shadow-lg border-4 border-dynamic-heart hover:shadow-xl cursor-pointer flex flex-col items-center text-center h-full transition-all duration-300 ${expandedIndex === i ? 'hidden' : ''}`}
+                    onClick={() => setExpandedIndex(i)}
+                  >
+                    <div className="text-4xl mb-2 animate-pulse-slow text-rose-500">{item.emoji}</div>
+                    <h3 className="text-xl font-bold text-rose-700 mb-2 animate-fadeIn-up">{item.title}</h3>
+                    <p className="text-sm text-gray-700 leading-tight line-clamp-3">{previewText}</p>
+                  </div>
                   {expandedIndex === i && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md" onClick={() => setExpandedIndex(null)}>
                       <div className="p-8 bg-white rounded-2xl shadow-2xl border-4 border-dynamic-heart-expanded flex flex-col items-center text-center relative overflow-hidden max-w-3xl w-full">
@@ -561,7 +549,7 @@ function App() {
                       </div>
                     </div>
                   )}
-                </div>
+                </>
               );
             })}
           </div>
