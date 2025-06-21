@@ -485,56 +485,66 @@ function App() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 z-10 relative">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 z-10 relative">
             {[
               { 
                 emoji: "💌", 
                 title: "Love Letter", 
-                message: "If I wrote you a love letter every day, it still wouldn't be enough to express what you mean to me."
+                message: "If I wrote you a love letter every day, it still wouldn't be enough to express what you mean to me. Your presence fills my heart with joy, and every word I write is a testament to the endless love I feel for you, a love that grows deeper with each sunrise."
               },
               { 
                 emoji: "🌹", 
                 title: "For You", 
-                message: "I'd give you every rose in the world if it could show you even a fraction of my love."
+                message: "I'd give you every rose in the world if it could show you even a fraction of my love. Each petal would whisper my devotion, a garden of affection that blooms endlessly for you, my eternal muse, in every season of our lives."
               },
               { 
                 emoji: "💕", 
                 title: "My Love", 
-                message: "What we have is rare and beautiful - a love that grows stronger with each passing day."
+                message: "What we have is rare and beautiful - a love that grows stronger with each passing day. It’s a bond forged in trust and nurtured by countless shared moments, a treasure I’ll hold close forever, through every challenge and triumph."
               },
               { 
                 emoji: "✨", 
                 title: "You Shine", 
-                message: "Your spirit shines brighter than any star I've ever seen."
+                message: "Your spirit shines brighter than any star I've ever seen. Your laughter lights up my darkest nights, and your kindness illuminates my world, a beacon of hope and love that guides me through every storm."
               },
               { 
                 emoji: "🥰", 
                 title: "Adore You", 
-                message: "I adore every little thing about you - your quirks, your laugh, your beautiful soul."
+                message: "I adore every little thing about you - your quirks, your laugh, your beautiful soul. From the way you smile to the gentle way you care, every detail of you is a masterpiece I cherish with all my heart."
               },
               { 
                 emoji: "💘", 
                 title: "Be Mine", 
-                message: "In every lifetime, in every universe, I would find you and choose you again and again."
+                message: "In every lifetime, in every universe, I would find you and choose you again and again. Your love is my destiny, a promise written in the stars, a commitment that transcends time and space, binding us eternally."
               }
-            ].map((item, i) => (
-              <div 
-                key={i}
-                className="p-6 sm:p-8 bg-white rounded-2xl shadow-lg border-4 border-heart hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.05] cursor-pointer flex flex-col items-center text-center relative overflow-hidden"
-                onClick={() => {
-                  setShowHearts(true);
-                  setTimeout(() => setShowHearts(false), 2000);
-                }}
-              >
-                {/* Heart Border Effect */}
-                <div className="absolute inset-0 border-4 border-transparent rounded-2xl clip-heart"></div>
-                
-                <div className="text-6xl mb-4 animate-pulse-slow text-rose-500">{item.emoji}</div>
-                <h3 className="text-2xl font-bold text-rose-700 mb-3 animate-fadeIn-up">{item.title}</h3>
-                <p className="text-lg text-gray-700 leading-relaxed">{item.message}</p>
-                <div className="absolute -bottom-2 right-2 text-rose-300 animate-bounce-slow">💕</div>
-              </div>
-            ))}
+            ].map((item, i) => {
+              const [isExpanded, setIsExpanded] = useState(false);
+              const previewText = item.message.substring(0, 50) + "...";
+
+              return (
+                <div 
+                  key={i}
+                  className={`p-6 sm:p-8 bg-white rounded-2xl shadow-lg border-4 ${isExpanded ? 'border-dynamic-heart-expanded' : 'border-dynamic-heart'} transition-all duration-500 transform ${isExpanded ? 'scale-110' : ''} cursor-pointer flex flex-col items-center text-center relative overflow-hidden`}
+                  onClick={() => setIsExpanded(!isExpanded)}
+                >
+                  {/* Dynamic Heart Border Effect */}
+                  <div className="absolute inset-0 border-4 border-transparent rounded-2xl clip-heart"></div>
+                  
+                  <div className="text-6xl mb-4 animate-pulse-slow text-rose-500 z-10">{item.emoji}</div>
+                  <h3 className="text-2xl font-bold text-rose-700 mb-3 animate-fadeIn-up z-10">{item.title}</h3>
+                  <p className={`text-lg text-gray-700 leading-relaxed z-10 transition-all duration-300 ${isExpanded ? '' : 'line-clamp-2'}`}>
+                    {isExpanded ? item.message : previewText}
+                  </p>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
+                    className="mt-4 px-4 py-2 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-full hover:from-rose-600 hover:to-pink-600 transition-all z-10"
+                  >
+                    {isExpanded ? "Unexpand" : "Expand"}
+                  </button>
+                  <div className="absolute -bottom-2 right-2 text-rose-300 animate-bounce-slow z-10">💕</div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
