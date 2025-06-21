@@ -6,7 +6,6 @@ function App() {
   const [notes, setNotes] = useState([]);
   const [noteInput, setNoteInput] = useState("");
   const [showHearts, setShowHearts] = useState(false);
-  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [showLoveLetter, setShowLoveLetter] = useState(false);
   const [typedText, setTypedText] = useState("");
   const [typingIndex, setTypingIndex] = useState(0);
@@ -15,7 +14,6 @@ function App() {
   const audioRef = useRef(null);
 
   // Refs for smooth scrolling to sections
-  const photosRef = useRef(null);
   const aboutRef = useRef(null);
   const appreciationRef = useRef(null);
   const notesRef = useRef(null);
@@ -28,45 +26,6 @@ function App() {
     "In your eyes, I found my home, my peace, my everything...",
     "You are my today and all of my tomorrows...",
     "Loving you is the best thing that ever happened to me..."
-  ];
-
-  // Photo gallery with romantic captions
-  const photos = [
-    {
-      url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
-      caption: "The day my heart found its home",
-      date: "June 2024",
-      location: "Our favorite park",
-      memory: "We walked hand in hand, laughing under the summer sky."
-    },
-    {
-      url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
-      caption: "Our laughter echoes in my soul",
-      date: "August 2024",
-      location: "The beach at sunset",
-      memory: "The waves sang our love song as we danced barefoot."
-    },
-    {
-      url: "https://images.unsplash.com/photo-1518495973542-4542c06a5843",
-      caption: "Forever isn't long enough with you",
-      date: "October 2024",
-      location: "Cozy café date",
-      memory: "Sipping coffee, your smile warmed me more than the cup."
-    },
-    {
-      url: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2",
-      caption: "Your hand in mine feels like destiny",
-      date: "December 2024",
-      location: "Winter market stroll",
-      memory: "Lights twinkled, but your eyes shone brighter."
-    },
-    {
-      url: "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00",
-      caption: "Every sunset is more beautiful with you",
-      date: "February 2025",
-      location: "Mountain getaway",
-      memory: "We watched the sky blush, wrapped in each other's warmth."
-    }
   ];
 
   // Heart animation effect
@@ -98,14 +57,6 @@ function App() {
     }
   }, [typedText, showLoveLetter, typingIndex]);
 
-  // Auto-rotate photos
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentPhotoIndex((prev) => (prev + 1) % photos.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
   // Handle adding love notes
   const addNote = () => {
     if (noteInput.trim()) {
@@ -132,7 +83,7 @@ function App() {
     if (isPlayingMusic) {
       audioRef.current.pause();
     } else {
-      audioRef.current.play();
+      audioRef.current.play().catch((error) => console.log("Audio play failed:", error));
     }
     setIsPlayingMusic(!isPlayingMusic);
   };
@@ -163,12 +114,11 @@ function App() {
         {[...Array(window.innerWidth < 768 ? 15 : 30)].map((_, i) => (
           <div
             key={i}
-            className="absolute text-pink-300 opacity-70"
+            className="absolute text-pink-300 opacity-70 animate-float"
             style={{
               fontSize: `${Math.random() * (window.innerWidth < 768 ? 12 : 20) + 8}px`,
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              animation: `float ${Math.random() * 15 + 10}s linear infinite`,
               animationDelay: `${Math.random() * 5}s`,
               transform: `rotate(${Math.random() * 360}deg)`
             }}
@@ -183,7 +133,7 @@ function App() {
         {[...Array(window.innerWidth < 768 ? 25 : 50)].map((_, i) => (
           <div
             key={i}
-            className="absolute rounded-full bg-white"
+            className="absolute rounded-full bg-white animate-twinkle"
             style={{
               width: `${Math.random() * 3 + 1}px`,
               height: `${Math.random() * 3 + 1}px`,
@@ -213,12 +163,6 @@ function App() {
           
           {/* Desktop navigation */}
           <nav className="hidden md:flex gap-4">
-            <button
-              onClick={() => scrollToSection(photosRef)}
-              className="text-rose-600 hover:text-rose-800 transition hover:scale-105 text-sm md:text-base"
-            >
-              Our Gallery
-            </button>
             <button
               onClick={() => scrollToSection(aboutRef)}
               className="text-rose-600 hover:text-rose-800 transition hover:scale-105 text-sm md:text-base"
@@ -256,12 +200,6 @@ function App() {
         {isMenuOpen && (
           <div ref={menuRef} className="md:hidden bg-white/90 backdrop-blur-md py-4 px-6 shadow-lg">
             <div className="flex flex-col gap-3">
-              <button
-                onClick={() => scrollToSection(photosRef)}
-                className="text-left py-2 text-rose-600 hover:text-rose-800 transition"
-              >
-                Our Gallery
-              </button>
               <button
                 onClick={() => scrollToSection(aboutRef)}
                 className="text-left py-2 text-rose-600 hover:text-rose-800 transition"
@@ -315,14 +253,14 @@ function App() {
         
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center w-full max-w-md sm:max-w-2xl mx-auto">
           <button
-            onClick={() => scrollToSection(photosRef)}
-            className="px-6 py-3 sm:px-8 sm:py-3 md:px-10 md:py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full hover:from-pink-600 hover:to-rose-600 transition-all duration-300 shadow-lg hover:shadow-xl text-right text-lg transform hover:scale-105"
+            onClick={() => scrollToSection(aboutRef)}
+            className="px-6 py-3 sm:px-8 sm:py-3 md:px-10 md:py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full hover:from-pink-600 hover:to-rose-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg transform hover:scale-105"
           >
             Our Love Story 📖
           </button>
           <button
             onClick={() => setShowLoveLetter(!showLoveLetter)}
-            className="px-6 py-3 sm:px-8 sm:py-3 md:px-10 md:py-4 bg-gradient-to-r from-rose-500 to-purple-500 text-white rounded-full hover:from-rose-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg transform hover:scale-right"
+            className="px-6 py-3 sm:px-8 sm:py-3 md:px-10 md:py-4 bg-gradient-to-r from-rose-500 to-purple-500 text-white rounded-full hover:from-rose-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg transform hover:scale-105"
           >
             {showLoveLetter ? 'Hide Letter' : 'Read My Heart 💌'}
           </button>
@@ -358,92 +296,6 @@ function App() {
             </div>
           </div>
         )}
-      </section>
-
-      {/* Photos Section */}
-      <section ref={photosRef} className="py-12 sm:py-16 md:py-20 w-full bg-white/90 backdrop-blur-sm z-10 relative">
-        <div className="absolute inset-0 bg-pink-50 opacity-20 pointer-events-none"></div>
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-rose-600 mb-8 sm:mb-10 md:mb-12 animate-fadeIn relative px-4">
-          <span className="relative inline-block">
-            Our Eternal Moments
-            <span className="absolute -bottom-1 sm:-bottom-2 left-0 right-0 h-0.5 sm:h-1 bg-gradient-to-r from-transparent via-rose-400 to-transparent"></span>
-          </span>
-        </h2>
-        
-        <div className="max-w-3xl mx-auto px-4 relative">
-          {/* Main featured photo */}
-          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg h-32 sm:h-48 md:h-64 aspect-[4/3] mb-6 sm:mb-8 group">
-            <img
-              src={photos[currentPhotoIndex].url}
-              alt={`Moment ${currentPhotoIndex + 1}`}
-              className="w-full h-full object-cover transform transition-all duration-1000 ease-in-out"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-          </div>
-          
-          {/* Enhanced caption container */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 sm:p-6 md:p-8 shadow-md border border-rose-200 mb-6 sm:mb-8 animate-fadeIn">
-            <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-              <div className="flex-1 text-left">
-                <h3 className="text-lg sm:text-xl md:text-2xl font-serif text-rose-700 mb-2 sm:mb-3">
-                  {photos[currentPhotoIndex].caption}
-                </h3>
-                <p className="text-sm sm:text-base text-gray-600 italic mb-2 sm:mb-3">
-                  "{photos[currentPhotoIndex].memory}"
-                </p>
-                <div className="flex flex-wrap gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500">
-                  <span className="flex items-center">
-                    📅 {photos[currentPhotoIndex].date}
-                  </span>
-                  <span className="flex items-center">
-                    📍 {photos[currentPhotoIndex].location}
-                  </span>
-                </div>
-              </div>
-              <div className="flex gap-2 sm:gap-3">
-                <button
-                  className="px-4 py-2 sm:px-5 sm:py-2 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-full hover:from-rose-600 hover:to-pink-600 transition-all shadow-md text-sm sm:text-base"
-                  onClick={() => setShowHearts(true) && setTimeout(() => setShowHearts(false), 2000)}
-                >
-                  💖 Love
-                </button>
-                <button
-                  className="px-4 py-2 sm:px-5 sm:py-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full hover:from-purple-600 hover:to-indigo-600 transition-all shadow-md text-sm sm:text-base"
-                  onClick={() => setCurrentPhotoIndex((prev) => (prev + 1) % photos.length)}
-                >
-                  Next →
-                </button>
-              </div>
-            </div>
-            <div className="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-rose-100 flex justify-center gap-2 sm:gap-3">
-              {[...Array(5)].map((_, i) => (
-                <span
-                  key={i}
-                  className={`text-xl sm:text-2xl ${i < 3 ? 'text-rose-500' : 'text-gray-300'}`}
-                >
-                  ♥
-                </span>
-              ))}
-            </div>
-          </div>
-          
-          {/* Thumbnail navigation */}
-          <div className="flex overflow-x-auto pb-2 sm:pb-0 sm:justify-center gap-2 sm:gap-3 px-2 sm:px-0">
-            {photos.map((photo, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrentPhotoIndex(i)}
-                className={`flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg overflow-hidden shadow-md transition-all duration-300 ${currentPhotoIndex === i ? 'ring-2 sm:ring-3 ring-rose-400 transform scale-110' : 'opacity-70 hover:opacity-100'}`}
-              >
-                <img
-                  src={photo.url}
-                  alt={`Thumbnail ${i + 1}`}
-                  className="w-full h-full object-cover"
-                />
-              </button>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* About You Section */}
