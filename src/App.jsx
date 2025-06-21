@@ -492,56 +492,64 @@ function App() {
           </div>
         </div>
       </section>
+      
+{/* Love Messages Section */}
+<section ref={messagesRef} className="py-20 w-full bg-gradient-to-br from-rose-50/90 to-pink-100/80 backdrop-blur-sm relative px-4 overflow-hidden z-10">
+  {/* ... (keep your existing message section code exactly as is) ... */}
+</section>
 
-{/* Expanded Message Modal - Fixed Version */}
+{/* Expanded Message Modal - Improved Version */}
 {expandedMessageIndex !== null && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-    {/* Backdrop with blur effect */}
+  <>
+    {/* Separate backdrop with blur */}
     <div 
-      className="absolute inset-0 bg-black/50 backdrop-blur-md transition-opacity duration-300"
+      className="fixed inset-0 z-40 bg-black/50 backdrop-blur-md transition-opacity duration-300"
       onClick={() => setExpandedMessageIndex(null)}
     />
     
-    {/* Modal Container - Centered properly */}
+    {/* Modal container - properly centered */}
     <div 
-      className="relative bg-white rounded-3xl shadow-2xl border-4 border-dynamic-heart-expanded max-w-2xl w-full mx-4 overflow-hidden transform transition-all duration-300 animate-scale-in max-h-[90vh] overflow-y-auto"
-      style={{
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)'
-      }}
-      onClick={(e) => e.stopPropagation()}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none"
     >
-      {/* Modal Content */}
-      <div className="p-8 sm:p-10 flex flex-col items-center text-center">
-        <div className="text-7xl mb-6 animate-pulse-slow text-rose-500">
-          {loveMessages[expandedMessageIndex].emoji}
+      <div 
+        className="relative bg-white rounded-3xl shadow-2xl border-4 border-dynamic-heart-expanded max-w-2xl w-full mx-4 overflow-hidden transform transition-all duration-300 animate-scale-in max-h-[90vh] overflow-y-auto pointer-events-auto"
+        style={{
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50)'
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Modal Content - keep your existing content exactly as is */}
+        <div className="p-8 sm:p-10 flex flex-col items-center text-center">
+          <div className="text-7xl mb-6 animate-pulse-slow text-rose-500">
+            {loveMessages[expandedMessageIndex].emoji}
+          </div>
+          <h3 className="text-3xl font-bold text-rose-700 mb-6">
+            {loveMessages[expandedMessageIndex].title}
+          </h3>
+          <div className="w-20 h-1 bg-gradient-to-r from-pink-300 to-rose-400 mb-6 rounded-full"></div>
+          <p className="text-lg text-gray-700 leading-relaxed mb-8 whitespace-pre-line">
+            {loveMessages[expandedMessageIndex].message}
+          </p>
+          <button
+            onClick={() => setExpandedMessageIndex(null)}
+            className="px-8 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-full hover:from-rose-600 hover:to-pink-600 transition-all shadow-lg hover:shadow-rose-300/50 flex items-center gap-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+            </svg>
+            Close
+          </button>
         </div>
-        <h3 className="text-3xl font-bold text-rose-700 mb-6">
-          {loveMessages[expandedMessageIndex].title}
-        </h3>
-        <div className="w-20 h-1 bg-gradient-to-r from-pink-300 to-rose-400 mb-6 rounded-full"></div>
-        <p className="text-lg text-gray-700 leading-relaxed mb-8 whitespace-pre-line">
-          {loveMessages[expandedMessageIndex].message}
-        </p>
-        <button
-          onClick={() => setExpandedMessageIndex(null)}
-          className="px-8 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-full hover:from-rose-600 hover:to-pink-600 transition-all shadow-lg hover:shadow-rose-300/50 flex items-center gap-2"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-          </svg>
-          Close
-        </button>
+        
+        {/* Decorative elements */}
+        <div className="absolute top-0 right-0 text-rose-200/60 text-8xl -mt-4 -mr-4">❦</div>
+        <div className="absolute bottom-0 left-0 text-pink-200/60 text-8xl -mb-4 -ml-4">❧</div>
+        <div className="absolute -bottom-3 right-3 text-rose-300 animate-bounce-slow text-4xl">💕</div>
       </div>
-      
-      {/* Decorative elements */}
-      <div className="absolute top-0 right-0 text-rose-200/60 text-8xl -mt-4 -mr-4">❦</div>
-      <div className="absolute bottom-0 left-0 text-pink-200/60 text-8xl -mb-4 -ml-4">❧</div>
-      <div className="absolute -bottom-3 right-3 text-rose-300 animate-bounce-slow text-4xl">💕</div>
     </div>
-  </div>
+  </>
 )}
 
       {/* Heart Particle Animation */}
