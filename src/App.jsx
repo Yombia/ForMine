@@ -492,59 +492,25 @@ function App() {
           </div>
         </div>
       </section>
-      
-{/* Love Messages Section */}
-<section ref={messagesRef} className="py-20 w-full bg-gradient-to-br from-rose-50/90 to-pink-100/80 backdrop-blur-sm z-10 relative px-4 overflow-hidden">
-  <h2 className="text-5xl font-bold text-rose-600 mb-16 text-center relative animate-fadeIn">
-    Messages From My Heart
-    <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-pink-300 via-rose-400 to-pink-300"></span>
-  </h2>
-  
-  <div className="max-w-6xl mx-auto relative">
-    {/* Decorative Petals */}
-    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-      {[...Array(20)].map((_, i) => (
-        <div
-          key={i}
-          className="absolute text-pink-300 opacity-50 animate-float-slow"
-          style={{
-            fontSize: `${Math.random() * 16 + 8}px`,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 10}s`,
-            transform: `rotate(${Math.random() * 360}deg)`
-          }}
-        >
-          ❀
-        </div>
-      ))}
-    </div>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
-      {loveMessages.map((item, i) => (
-        <div
-          key={i}
-          className="p-6 bg-white/90 rounded-2xl shadow-lg border-4 border-dynamic-heart hover:shadow-xl cursor-pointer flex flex-col items-center text-center h-full transition-all duration-300 hover:scale-105 group"
-          onClick={() => setExpandedMessageIndex(i)}
-        >
-          <div className="text-5xl mb-4 animate-pulse-slow text-rose-500 group-hover:text-rose-600 transition-colors">{item.emoji}</div>
-          <h3 className="text-xl font-bold text-rose-700 mb-3 animate-fadeIn-up">{item.title}</h3>
-          <p className="text-sm text-gray-700 leading-relaxed line-clamp-3 mb-2">{item.message.substring(0, 100)}...</p>
-          <span className="text-xs text-pink-400 mt-auto">Click to read more</span>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
-
-{/* Expanded Message Modal */}
+{/* Expanded Message Modal - Fixed Version */}
 {expandedMessageIndex !== null && (
-  <div 
-    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-lg transition-all duration-300"
-    onClick={() => setExpandedMessageIndex(null)}
-  >
+  <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    {/* Backdrop with blur effect */}
     <div 
-      className="relative bg-white rounded-3xl shadow-2xl border-4 border-dynamic-heart-expanded max-w-2xl w-full mx-4 overflow-hidden transform transition-all duration-300 animate-scale-in"
+      className="absolute inset-0 bg-black/50 backdrop-blur-md transition-opacity duration-300"
+      onClick={() => setExpandedMessageIndex(null)}
+    />
+    
+    {/* Modal Container - Centered properly */}
+    <div 
+      className="relative bg-white rounded-3xl shadow-2xl border-4 border-dynamic-heart-expanded max-w-2xl w-full mx-4 overflow-hidden transform transition-all duration-300 animate-scale-in max-h-[90vh] overflow-y-auto"
+      style={{
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)'
+      }}
       onClick={(e) => e.stopPropagation()}
     >
       {/* Modal Content */}
