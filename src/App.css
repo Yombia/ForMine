@@ -1,3 +1,4 @@
+/* Custom Animations */
 @keyframes float {
   0% {
     transform: translateY(0) rotate(0deg);
@@ -9,57 +10,73 @@
   }
 }
 
-@keyframes beat {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+.animate-float {
+  animation: float 2s ease-out forwards;
 }
 
-@keyframes glow {
-  0% { text-shadow: 0 0 5px rgba(236, 72, 153, 0.5); }
-  50% { text-shadow: 0 0 20px rgba(236, 72, 153, 0.8); }
-  100% { text-shadow: 0 0 5px rgba(236, 72, 153, 0.5); }
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-in forwards;
 }
 
 @keyframes twinkle {
-  0% { opacity: 0.2; }
-  50% { opacity: 1; }
-  100% { opacity: 0.2; }
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.6;
+  }
 }
 
-@keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0; }
-  100% { opacity: 1; }
+.animate-twinkle > div {
+  animation: twinkle 3s ease-in-out infinite;
 }
 
-@keyframes gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.animate-float {
-  animation: float linear forwards;
-}
-
-.animate-beat {
-  animation: beat 1s infinite;
+@keyframes glow {
+  0%, 100% {
+    text-shadow: 0 0 5px rgba(251, 113, 133, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 15px rgba(251, 113, 133, 0.8);
+  }
 }
 
 .animate-glow {
-  animation: glow 2s infinite;
+  animation: glow 2s ease-in-out infinite;
 }
 
-.animate-twinkle {
-  animation: twinkle 4s infinite;
+@keyframes beat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.animate-beat {
+  animation: beat 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 .animate-blink {
-  animation: blink 1s infinite;
-}
-
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradient 10s ease infinite;
+  animation: blink 1s step-end infinite;
 }

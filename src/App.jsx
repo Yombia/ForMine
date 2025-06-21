@@ -36,31 +36,36 @@ function App() {
       url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
       caption: "The day my heart found its home",
       date: "June 2024",
-      location: "Our favorite park"
+      location: "Our favorite park",
+      memory: "We walked hand in hand, laughing under the summer sky."
     },
     {
       url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
       caption: "Our laughter echoes in my soul",
       date: "August 2024",
-      location: "The beach at sunset"
+      location: "The beach at sunset",
+      memory: "The waves sang our love song as we danced barefoot."
     },
     {
       url: "https://images.unsplash.com/photo-1518495973542-4542c06a5843",
       caption: "Forever isn't long enough with you",
       date: "October 2024",
-      location: "Cozy café date"
+      location: "Cozy café date",
+      memory: "Sipping coffee, your smile warmed me more than the cup."
     },
     {
       url: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2",
       caption: "Your hand in mine feels like destiny",
       date: "December 2024",
-      location: "Winter market stroll"
+      location: "Winter market stroll",
+      memory: "Lights twinkled, but your eyes shone brighter."
     },
     {
       url: "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00",
       caption: "Every sunset is more beautiful with you",
       date: "February 2025",
-      location: "Mountain getaway"
+      location: "Mountain getaway",
+      memory: "We watched the sky blush, wrapped in each other's warmth."
     }
   ];
 
@@ -367,40 +372,68 @@ function App() {
         
         <div className="max-w-5xl mx-auto px-4 relative">
           {/* Main featured photo */}
-          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg h-48 sm:h-64 md:h-80 mb-6 sm:mb-8 group">
+          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg h-40 sm:h-56 md:h-72 mb-6 sm:mb-8 group">
             <img
               src={photos[currentPhotoIndex].url}
               alt={`Moment ${currentPhotoIndex + 1}`}
               className="w-full h-full object-cover transform transition-all duration-1000 ease-in-out"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-4 sm:p-6">
-              <p className="text-white text-base sm:text-lg md:text-xl font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                {photos[currentPhotoIndex].caption}
-              </p>
-              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mt-2 text-white text-xs sm:text-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-                <span className="flex items-center">
-                  📅 {photos[currentPhotoIndex].date}
-                </span>
-                <span className="flex items-center">
-                  📍 {photos[currentPhotoIndex].location}
-                </span>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+          </div>
+          
+          {/* Enhanced caption container */}
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 sm:p-6 md:p-8 shadow-md border border-rose-200 mb-6 sm:mb-8 animate-fadeIn">
+            <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+              <div className="flex-1 text-left">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-serif text-rose-700 mb-2 sm:mb-3">
+                  {photos[currentPhotoIndex].caption}
+                </h3>
+                <p className="text-sm sm:text-base text-gray-600 italic mb-2 sm:mb-3">
+                  "{photos[currentPhotoIndex].memory}"
+                </p>
+                <div className="flex flex-wrap gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500">
+                  <span className="flex items-center">
+                    📅 {photos[currentPhotoIndex].date}
+                  </span>
+                  <span className="flex items-center">
+                    📍 {photos[currentPhotoIndex].location}
+                  </span>
+                </div>
+              </div>
+              <div className="flex gap-2 sm:gap-3">
                 <button
-                  className="flex items-center mt-2 sm:mt-0 sm:ml-4 bg-rose-500/80 hover:bg-rose-600/80 text-white px-3 py-1 rounded-full transition"
+                  className="px-4 py-2 sm:px-5 sm:py-2 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-full hover:from-rose-600 hover:to-pink-600 transition-all shadow-md text-sm sm:text-base"
                   onClick={() => setShowHearts(true) && setTimeout(() => setShowHearts(false), 2000)}
                 >
                   💖 Love
                 </button>
+                <button
+                  className="px-4 py-2 sm:px-5 sm:py-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full hover:from-purple-600 hover:to-indigo-600 transition-all shadow-md text-sm sm:text-base"
+                  onClick={() => setCurrentPhotoIndex((prev) => (prev + 1) % photos.length)}
+                >
+                  Next →
+                </button>
               </div>
+            </div>
+            <div className="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-rose-100 flex justify-center gap-2 sm:gap-3">
+              {[...Array(5)].map((_, i) => (
+                <span
+                  key={i}
+                  className={`text-xl sm:text-2xl ${i < 3 ? 'text-rose-500' : 'text-gray-300'}`}
+                >
+                  ♥
+                </span>
+              ))}
             </div>
           </div>
           
           {/* Thumbnail navigation */}
-          <div className="flex overflow-x-auto pb-2 sm:pb-0 sm:justify-center gap-3 sm:gap-4 px-2 sm:px-0">
+          <div className="flex overflow-x-auto pb-2 sm:pb-0 sm:justify-center gap-2 sm:gap-3 px-2 sm:px-0">
             {photos.map((photo, i) => (
               <button
                 key={i}
                 onClick={() => setCurrentPhotoIndex(i)}
-                className={`flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-lg overflow-hidden shadow-md transition-all duration-300 ${currentPhotoIndex === i ? 'ring-2 sm:ring-3 ring-rose-400 transform scale-110' : 'opacity-70 hover:opacity-100'}`}
+                className={`flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg overflow-hidden shadow-md transition-all duration-300 ${currentPhotoIndex === i ? 'ring-2 sm:ring-3 ring-rose-400 transform scale-110' : 'opacity-70 hover:opacity-100'}`}
               >
                 <img
                   src={photo.url}
@@ -463,7 +496,7 @@ function App() {
           <span className="relative inline-block">
             Our Journey Together
             <span className="absolute -bottom-1 sm:-bottom-2 left-0 right-0 h-0.5 sm:h-1 bg-gradient-to-r from-transparent via-rose-400 to-transparent"></span>
-            </span>
+          </span>
         </h2>
         
         <div className="max-w-4xl mx-auto">
