@@ -493,7 +493,9 @@ function App() {
         </div>
       </section>
       
-<section ref={messagesRef} className="py-20 w-full bg-gradient-to-br from-rose-50/90 to-pink-100/80 backdrop-blur-sm z-10 relative px-4 overflow-hidden">
+            {/* Message items */}
+{/* Love Messages Section */}
+<section ref={messagesRef} className="py-20 w-full bg-gradient-to-br from-rose-50/90 to-pink-100/80 backdrop-blur-sm relative px-4 overflow-hidden z-10">
   <h2 className="text-5xl font-bold text-rose-600 mb-16 text-center relative animate-fadeIn">
     Messages From My Heart
     <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-pink-300 via-rose-400 to-pink-300"></span>
@@ -535,6 +537,42 @@ function App() {
     </div>
   </div>
 </section>
+
+{/* Fixed Modal Implementation */}
+{expandedMessageIndex !== null && (
+  <div className="fixed inset-0 z-[100] flex items-center justify-center">
+    {/* Backdrop */}
+    <div 
+      className="absolute inset-0 bg-black/50 backdrop-blur-md"
+      onClick={() => setExpandedMessageIndex(null)}
+    />
+    
+    {/* Modal Content */}
+    <div 
+      className="relative bg-white rounded-3xl shadow-2xl border-4 border-rose-400 max-w-md w-full mx-4 overflow-y-auto max-h-[90vh]"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="p-8 flex flex-col items-center text-center">
+        <div className="text-7xl mb-6 animate-pulse text-rose-500">
+          {loveMessages[expandedMessageIndex].emoji}
+        </div>
+        <h3 className="text-3xl font-bold text-rose-700 mb-4">
+          {loveMessages[expandedMessageIndex].title}
+        </h3>
+        <div className="w-20 h-1 bg-gradient-to-r from-pink-300 to-rose-400 mb-6 rounded-full"></div>
+        <p className="text-lg text-gray-700 leading-relaxed mb-6">
+          {loveMessages[expandedMessageIndex].message}
+        </p>
+        <button
+          onClick={() => setExpandedMessageIndex(null)}
+          className="px-6 py-2 bg-rose-500 text-white rounded-full hover:bg-rose-600 transition-colors"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+)}
 
       {/* Heart Particle Animation */}
       {showHearts && (
