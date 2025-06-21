@@ -183,7 +183,7 @@ function App() {
         {[...Array(window.innerWidth < 768 ? 25 : 50)].map((_, i) => (
           <div
             key={i}
-            className="absolute rounded-full bg-white animate-twinkle"
+            className="absolute rounded-full bg-white"
             style={{
               width: `${Math.random() * 3 + 1}px`,
               height: `${Math.random() * 3 + 1}px`,
@@ -316,13 +316,13 @@ function App() {
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center w-full max-w-md sm:max-w-2xl mx-auto">
           <button
             onClick={() => scrollToSection(photosRef)}
-            className="px-6 py-3 sm:px-8 sm:py-3 md:px-10 md:py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full hover:from-pink-600 hover:to-rose-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg transform hover:scale-105"
+            className="px-6 py-3 sm:px-8 sm:py-3 md:px-10 md:py-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full hover:from-pink-600 hover:to-rose-600 transition-all duration-300 shadow-lg hover:shadow-xl text-right text-lg transform hover:scale-105"
           >
             Our Love Story 📖
           </button>
           <button
             onClick={() => setShowLoveLetter(!showLoveLetter)}
-            className="px-6 py-3 sm:px-8 sm:py-3 md:px-10 md:py-4 bg-gradient-to-r from-rose-500 to-purple-500 text-white rounded-full hover:from-rose-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg transform hover:scale-105"
+            className="px-6 py-3 sm:px-8 sm:py-3 md:px-10 md:py-4 bg-gradient-to-r from-rose-500 to-purple-500 text-white rounded-full hover:from-rose-600 hover:to-purple-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg transform hover:scale-right"
           >
             {showLoveLetter ? 'Hide Letter' : 'Read My Heart 💌'}
           </button>
@@ -370,9 +370,9 @@ function App() {
           </span>
         </h2>
         
-        <div className="max-w-5xl mx-auto px-4 relative">
+        <div className="max-w-3xl mx-auto px-4 relative">
           {/* Main featured photo */}
-          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg h-40 sm:h-56 md:h-72 mb-6 sm:mb-8 group">
+          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg h-32 sm:h-48 md:h-64 aspect-[4/3] mb-6 sm:mb-8 group">
             <img
               src={photos[currentPhotoIndex].url}
               alt={`Moment ${currentPhotoIndex + 1}`}
