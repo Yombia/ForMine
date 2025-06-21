@@ -485,7 +485,7 @@ function App() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 z-10 relative">
+          <div className="relative z-10">
             {[
               { 
                 emoji: "💌", 
@@ -522,26 +522,35 @@ function App() {
               const previewText = item.message.substring(0, 50) + "...";
 
               return (
-                <div 
+                <div
                   key={i}
-                  className={`p-6 sm:p-8 bg-white rounded-2xl shadow-lg border-4 ${isExpanded ? 'border-dynamic-heart-expanded' : 'border-dynamic-heart'} transition-all duration-500 transform ${isExpanded ? 'scale-110' : ''} cursor-pointer flex flex-col items-center text-center relative overflow-hidden`}
-                  onClick={() => setIsExpanded(!isExpanded)}
+                  className={`transition-all duration-500 ease-in-out ${isExpanded ? 'fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[80%] max-w-4xl z-50 bg-white/95 backdrop-blur-md' : 'inline-block w-64 h-64'}`}
                 >
-                  {/* Dynamic Heart Border Effect */}
-                  <div className="absolute inset-0 border-4 border-transparent rounded-2xl clip-heart"></div>
-                  
-                  <div className="text-6xl mb-4 animate-pulse-slow text-rose-500 z-10">{item.emoji}</div>
-                  <h3 className="text-2xl font-bold text-rose-700 mb-3 animate-fadeIn-up z-10">{item.title}</h3>
-                  <p className={`text-lg text-gray-700 leading-relaxed z-10 transition-all duration-300 ${isExpanded ? '' : 'line-clamp-2'}`}>
-                    {isExpanded ? item.message : previewText}
-                  </p>
-                  <button
-                    onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
-                    className="mt-4 px-4 py-2 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-full hover:from-rose-600 hover:to-pink-600 transition-all z-10"
-                  >
-                    {isExpanded ? "Unexpand" : "Expand"}
-                  </button>
-                  <div className="absolute -bottom-2 right-2 text-rose-300 animate-bounce-slow z-10">💕</div>
+                  {!isExpanded && (
+                    <div 
+                      className="p-4 bg-white rounded-2xl shadow-lg border-4 border-dynamic-heart hover:shadow-xl cursor-pointer flex flex-col items-center text-center h-full"
+                      onClick={() => setIsExpanded(true)}
+                    >
+                      <div className="text-4xl mb-2 animate-pulse-slow text-rose-500">{item.emoji}</div>
+                      <h3 className="text-xl font-bold text-rose-700 mb-2 animate-fadeIn-up">{item.title}</h3>
+                      <p className="text-sm text-gray-700 leading-tight line-clamp-3">{previewText}</p>
+                    </div>
+                  )}
+                  {isExpanded && (
+                    <div className="p-8 bg-white rounded-2xl shadow-2xl border-4 border-dynamic-heart-expanded flex flex-col items-center text-center relative overflow-hidden">
+                      <div className="absolute inset-0 border-4 border-transparent rounded-2xl clip-heart"></div>
+                      <div className="text-6xl mb-4 animate-pulse-slow text-rose-500 z-10">{item.emoji}</div>
+                      <h3 className="text-3xl font-bold text-rose-700 mb-4 animate-fadeIn-up z-10">{item.title}</h3>
+                      <p className="text-lg text-gray-700 leading-relaxed z-10 mb-6">{item.message}</p>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setIsExpanded(false); }}
+                        className="px-6 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-full hover:from-rose-600 hover:to-pink-600 transition-all z-10"
+                      >
+                        Unexpand
+                      </button>
+                      <div className="absolute -bottom-2 right-2 text-rose-300 animate-bounce-slow z-10">💕</div>
+                    </div>
+                  )}
                 </div>
               );
             })}
