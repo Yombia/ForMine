@@ -10,6 +10,7 @@ function App() {
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
+  const [expandedMessageIndex, setExpandedMessageIndex] = useState(null);
   const audioRef = useRef(null);
 
   // Refs for smooth scrolling to sections
@@ -142,8 +143,42 @@ function App() {
     }
   }, [currentSongIndex]);
 
+  // Love messages data
+  const loveMessages = [
+    { 
+      emoji: "💌", 
+      title: "Love Letter", 
+      message: "If I wrote you a love letter every day, it still wouldn't be enough to express what you mean to me. Your presence fills my heart with joy, and every word I write is a testament to the endless love I feel for you, a love that grows deeper with each sunrise."
+    },
+    { 
+      emoji: "🌹", 
+      title: "For You", 
+      message: "I'd give you every rose in the world if it could show you even a fraction of my love. Each petal would whisper my devotion, a garden of affection that blooms endlessly for you, my eternal muse, in every season of our lives."
+    },
+    { 
+      emoji: "💕", 
+      title: "My Love", 
+      message: "What we have is rare and beautiful - a love that grows stronger with each passing day. It's a bond forged in trust and nurtured by countless shared moments, a treasure I'll hold close forever, through every challenge and triumph."
+    },
+    { 
+      emoji: "✨", 
+      title: "You Shine", 
+      message: "Your spirit shines brighter than any star I've ever seen. Your laughter lights up my darkest nights, and your kindness illuminates my world, a beacon of hope and love that guides me through every storm."
+    },
+    { 
+      emoji: "🥰", 
+      title: "Adore You", 
+      message: "I adore every little thing about you - your quirks, your laugh, your beautiful soul. From the way you smile to the gentle way you care, every detail of you is a masterpiece I cherish with all my heart."
+    },
+    { 
+      emoji: "💘", 
+      title: "Be Mine", 
+      message: "In every lifetime, in every universe, I would find you and choose you again and again. Your love is my destiny, a promise written in the stars, a commitment that transcends time and space, binding us eternally."
+    }
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-rose-50 flex flex-col items-center text-center font-serif relative">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-rose-50 flex flex-col items-center text-center font-serif relative overflow-x-hidden">
       {/* Hidden audio element */}
       <audio ref={audioRef} loop>
         <source src={songs[currentSongIndex].url} type="audio/mpeg" />
@@ -458,7 +493,7 @@ function App() {
         </div>
       </section>
 
-{/* Love Messages Section */}
+      {/* Love Messages Section */}
       <section ref={messagesRef} className="py-20 w-full bg-gradient-to-br from-rose-50/90 to-pink-100/80 backdrop-blur-sm z-10 relative px-4 overflow-hidden">
         <h2 className="text-5xl font-bold text-rose-600 mb-16 text-center relative animate-fadeIn">
           Messages From My Heart
@@ -486,75 +521,39 @@ function App() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
-            {[
-              { 
-                emoji: "💌", 
-                title: "Love Letter", 
-                message: "If I wrote you a love letter every day, it still wouldn't be enough to express what you mean to me. Your presence fills my heart with joy, and every word I write is a testament to the endless love I feel for you, a love that grows deeper with each sunrise."
-              },
-              { 
-                emoji: "🌹", 
-                title: "For You", 
-                message: "I'd give you every rose in the world if it could show you even a fraction of my love. Each petal would whisper my devotion, a garden of affection that blooms endlessly for you, my eternal muse, in every season of our lives."
-              },
-              { 
-                emoji: "💕", 
-                title: "My Love", 
-                message: "What we have is rare and beautiful - a love that grows stronger with each passing day. It’s a bond forged in trust and nurtured by countless shared moments, a treasure I’ll hold close forever, through every challenge and triumph."
-              },
-              { 
-                emoji: "✨", 
-                title: "You Shine", 
-                message: "Your spirit shines brighter than any star I've ever seen. Your laughter lights up my darkest nights, and your kindness illuminates my world, a beacon of hope and love that guides me through every storm."
-              },
-              { 
-                emoji: "🥰", 
-                title: "Adore You", 
-                message: "I adore every little thing about you - your quirks, your laugh, your beautiful soul. From the way you smile to the gentle way you care, every detail of you is a masterpiece I cherish with all my heart."
-              },
-              { 
-                emoji: "💘", 
-                title: "Be Mine", 
-                message: "In every lifetime, in every universe, I would find you and choose you again and again. Your love is my destiny, a promise written in the stars, a commitment that transcends time and space, binding us eternally."
-              }
-            ].map((item, i) => {
-              const [expandedIndex, setExpandedIndex] = useState(null);
-              const previewText = item.message.substring(0, 50) + "...";
-
-              return (
-                <>
-                  <div
-                    key={i}
-                    className={`p-4 bg-white rounded-2xl shadow-lg border-4 border-dynamic-heart hover:shadow-xl cursor-pointer flex flex-col items-center text-center h-full transition-all duration-300 ${expandedIndex === i ? 'hidden' : ''}`}
-                    onClick={() => setExpandedIndex(i)}
-                  >
-                    <div className="text-4xl mb-2 animate-pulse-slow text-rose-500">{item.emoji}</div>
-                    <h3 className="text-xl font-bold text-rose-700 mb-2 animate-fadeIn-up">{item.title}</h3>
-                    <p className="text-sm text-gray-700 leading-tight line-clamp-3">{previewText}</p>
-                  </div>
-                  {expandedIndex === i && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md" onClick={() => setExpandedIndex(null)}>
-                      <div className="p-8 bg-white rounded-2xl shadow-2xl border-4 border-dynamic-heart-expanded flex flex-col items-center text-center relative overflow-hidden max-w-3xl w-full">
-                        <div className="absolute inset-0 border-4 border-transparent rounded-2xl clip-heart"></div>
-                        <div className="text-6xl mb-4 animate-pulse-slow text-rose-500 z-10">{item.emoji}</div>
-                        <h3 className="text-3xl font-bold text-rose-700 mb-4 animate-fadeIn-up z-10">{item.title}</h3>
-                        <p className="text-lg text-gray-700 leading-relaxed z-10 mb-6">{item.message}</p>
-                        <button
-                          onClick={(e) => { e.stopPropagation(); setExpandedIndex(null); }}
-                          className="px-6 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-full hover:from-rose-600 hover:to-pink-600 transition-all z-10"
-                        >
-                          Unexpand
-                        </button>
-                        <div className="absolute -bottom-2 right-2 text-rose-300 animate-bounce-slow z-10">💕</div>
-                      </div>
-                    </div>
-                  )}
-                </>
-              );
-            })}
+            {loveMessages.map((item, i) => (
+              <div
+                key={i}
+                className={`p-4 bg-white rounded-2xl shadow-lg border-4 border-dynamic-heart hover:shadow-xl cursor-pointer flex flex-col items-center text-center h-full transition-all duration-300`}
+                onClick={() => setExpandedMessageIndex(i)}
+              >
+                <div className="text-4xl mb-2 animate-pulse-slow text-rose-500">{item.emoji}</div>
+                <h3 className="text-xl font-bold text-rose-700 mb-2 animate-fadeIn-up">{item.title}</h3>
+                <p className="text-sm text-gray-700 leading-tight line-clamp-3">{item.message.substring(0, 50)}...</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
+
+      {/* Expanded Message Modal */}
+      {expandedMessageIndex !== null && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md" onClick={() => setExpandedMessageIndex(null)}>
+          <div className="p-8 bg-white rounded-2xl shadow-2xl border-4 border-dynamic-heart-expanded flex flex-col items-center text-center relative overflow-hidden max-w-3xl w-full mx-4">
+            <div className="absolute inset-0 border-4 border-transparent rounded-2xl clip-heart"></div>
+            <div className="text-6xl mb-4 animate-pulse-slow text-rose-500 z-10">{loveMessages[expandedMessageIndex].emoji}</div>
+            <h3 className="text-3xl font-bold text-rose-700 mb-4 animate-fadeIn-up z-10">{loveMessages[expandedMessageIndex].title}</h3>
+            <p className="text-lg text-gray-700 leading-relaxed z-10 mb-6">{loveMessages[expandedMessageIndex].message}</p>
+            <button
+              onClick={(e) => { e.stopPropagation(); setExpandedMessageIndex(null); }}
+              className="px-6 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-full hover:from-rose-600 hover:to-pink-600 transition-all z-10"
+            >
+              Close
+            </button>
+            <div className="absolute -bottom-2 right-2 text-rose-300 animate-bounce-slow z-10">💕</div>
+          </div>
+        </div>
+      )}
 
       {/* Heart Particle Animation */}
       {showHearts && (
