@@ -34,23 +34,33 @@ function App() {
   const photos = [
     {
       url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
-      caption: "The day my heart found its home"
+      caption: "The day my heart found its home",
+      date: "June 2024",
+      location: "Our favorite park"
     },
     {
       url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
-      caption: "Our laughter echoes in my soul"
+      caption: "Our laughter echoes in my soul",
+      date: "August 2024",
+      location: "The beach at sunset"
     },
     {
       url: "https://images.unsplash.com/photo-1518495973542-4542c06a5843",
-      caption: "Forever isn't long enough with you"
+      caption: "Forever isn't long enough with you",
+      date: "October 2024",
+      location: "Cozy café date"
     },
     {
       url: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2",
-      caption: "Your hand in mine feels like destiny"
+      caption: "Your hand in mine feels like destiny",
+      date: "December 2024",
+      location: "Winter market stroll"
     },
     {
       url: "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00",
-      caption: "Every sunset is more beautiful with you"
+      caption: "Every sunset is more beautiful with you",
+      date: "February 2025",
+      location: "Mountain getaway"
     }
   ];
 
@@ -96,7 +106,6 @@ function App() {
     if (noteInput.trim()) {
       setNotes([{ id: Date.now(), text: noteInput, date: new Date().toLocaleString() }, ...notes]);
       setNoteInput("");
-      // Show hearts when adding a note
       setShowHearts(true);
       setTimeout(() => setShowHearts(false), 2000);
     }
@@ -110,7 +119,7 @@ function App() {
   // Smooth scroll to section
   const scrollToSection = (ref) => {
     ref.current.scrollIntoView({ behavior: "smooth" });
-    setIsMenuOpen(false); // Close mobile menu after navigation
+    setIsMenuOpen(false);
   };
 
   // Toggle romantic music
@@ -144,7 +153,7 @@ function App() {
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
       </audio>
 
-      {/* Floating petals background - reduced number on mobile */}
+      {/* Floating petals background */}
       <div className="fixed inset-0 z-0 overflow-hidden">
         {[...Array(window.innerWidth < 768 ? 15 : 30)].map((_, i) => (
           <div
@@ -164,7 +173,7 @@ function App() {
         ))}
       </div>
 
-      {/* Twinkling stars - reduced number on mobile */}
+      {/* Twinkling stars */}
       <div className="fixed inset-0 z-0">
         {[...Array(window.innerWidth < 768 ? 25 : 50)].map((_, i) => (
           <div
@@ -182,7 +191,7 @@ function App() {
         ))}
       </div>
 
-      {/* Header with responsive design */}
+      {/* Header */}
       <header className="fixed top-0 w-full bg-white/70 backdrop-blur-md z-30 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
           <h1 className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-rose-600 animate-glow">
@@ -283,7 +292,7 @@ function App() {
         )}
       </header>
 
-      {/* Hero Section with responsive sizing */}
+      {/* Hero Section */}
       <section className="min-h-screen flex flex-col items-center justify-center z-10 w-full px-4 pt-20 pb-10">
         <div className="relative">
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-700 to-rose-700 animate-pulse mb-6">
@@ -314,7 +323,7 @@ function App() {
           </button>
         </div>
         
-        {/* Animated love letter that folds out */}
+        {/* Animated love letter */}
         {showLoveLetter && (
           <div className="mt-8 sm:mt-12 w-full max-w-xs sm:max-w-sm md:max-w-2xl bg-rose-50 rounded-lg shadow-xl overflow-hidden transform transition-all duration-500 animate-fadeIn">
             <div className="p-4 sm:p-6 bg-gradient-to-b from-rose-100 to-pink-100 border-b border-rose-200">
@@ -346,7 +355,7 @@ function App() {
         )}
       </section>
 
-      {/* Photos Section with responsive carousel */}
+      {/* Photos Section */}
       <section ref={photosRef} className="py-12 sm:py-16 md:py-20 w-full bg-white/90 backdrop-blur-sm z-10 relative">
         <div className="absolute inset-0 bg-pink-50 opacity-20 pointer-events-none"></div>
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-rose-600 mb-8 sm:mb-10 md:mb-12 animate-fadeIn relative px-4">
@@ -357,27 +366,41 @@ function App() {
         </h2>
         
         <div className="max-w-5xl mx-auto px-4 relative">
-          {/* Main featured photo with responsive height */}
-          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg h-64 sm:h-80 md:h-96 mb-6 sm:mb-8 group">
+          {/* Main featured photo */}
+          <div className="relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg h-48 sm:h-64 md:h-80 mb-6 sm:mb-8 group">
             <img
               src={photos[currentPhotoIndex].url}
               alt={`Moment ${currentPhotoIndex + 1}`}
               className="w-full h-full object-cover transform transition-all duration-1000 ease-in-out"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4 sm:p-6">
-              <p className="text-white text-lg sm:text-xl md:text-2xl font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-4 sm:p-6">
+              <p className="text-white text-base sm:text-lg md:text-xl font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                 {photos[currentPhotoIndex].caption}
               </p>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mt-2 text-white text-xs sm:text-sm opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="flex items-center">
+                  📅 {photos[currentPhotoIndex].date}
+                </span>
+                <span className="flex items-center">
+                  📍 {photos[currentPhotoIndex].location}
+                </span>
+                <button
+                  className="flex items-center mt-2 sm:mt-0 sm:ml-4 bg-rose-500/80 hover:bg-rose-600/80 text-white px-3 py-1 rounded-full transition"
+                  onClick={() => setShowHearts(true) && setTimeout(() => setShowHearts(false), 2000)}
+                >
+                  💖 Love
+                </button>
+              </div>
             </div>
           </div>
           
-          {/* Thumbnail navigation with horizontal scroll on mobile */}
+          {/* Thumbnail navigation */}
           <div className="flex overflow-x-auto pb-2 sm:pb-0 sm:justify-center gap-3 sm:gap-4 px-2 sm:px-0">
             {photos.map((photo, i) => (
               <button
                 key={i}
                 onClick={() => setCurrentPhotoIndex(i)}
-                className={`flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-lg overflow-hidden shadow-md transition-all duration-300 ${currentPhotoIndex === i ? 'ring-2 sm:ring-4 ring-rose-400 transform scale-110' : 'opacity-70 hover:opacity-100'}`}
+                className={`flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-lg overflow-hidden shadow-md transition-all duration-300 ${currentPhotoIndex === i ? 'ring-2 sm:ring-3 ring-rose-400 transform scale-110' : 'opacity-70 hover:opacity-100'}`}
               >
                 <img
                   src={photo.url}
@@ -390,7 +413,7 @@ function App() {
         </div>
       </section>
 
-      {/* About You Section with responsive layout */}
+      {/* About You Section */}
       <section ref={aboutRef} className="py-12 sm:py-16 md:py-20 w-full bg-rose-50/90 backdrop-blur-sm z-10 relative px-4">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-rose-600 mb-8 sm:mb-10 md:mb-12 animate-fadeIn relative">
@@ -434,22 +457,20 @@ function App() {
         </div>
       </section>
 
-      {/* Memories Timeline Section with responsive layout */}
+      {/* Memories Timeline Section */}
       <section ref={memoriesRef} className="py-12 sm:py-16 md:py-20 w-full bg-white/90 backdrop-blur-sm z-10 px-4">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-rose-600 mb-8 sm:mb-10 md:mb-12 animate-fadeIn relative">
           <span className="relative inline-block">
             Our Journey Together
             <span className="absolute -bottom-1 sm:-bottom-2 left-0 right-0 h-0.5 sm:h-1 bg-gradient-to-r from-transparent via-rose-400 to-transparent"></span>
-          </span>
+            </span>
         </h2>
         
         <div className="max-w-4xl mx-auto">
           <div className="relative">
-            {/* Timeline line - centered on mobile, alternating on desktop */}
             <div className="hidden md:block absolute left-1/2 h-full w-1 bg-gradient-to-b from-pink-300 to-rose-300 transform -translate-x-1/2"></div>
             <div className="md:hidden absolute left-6 h-full w-1 bg-gradient-to-b from-pink-300 to-rose-300"></div>
             
-            {/* Timeline items */}
             {[
               { date: "The First Glance", description: "When our eyes met and time stood still", icon: "👀" },
               { date: "First Date", description: "Nervous laughter and stolen glances", icon: "🍽️" },
@@ -471,7 +492,7 @@ function App() {
         </div>
       </section>
 
-      {/* Appreciation Section with responsive grid */}
+      {/* Appreciation Section */}
       <section ref={appreciationRef} className="py-12 sm:py-16 md:py-20 w-full bg-rose-50/90 backdrop-blur-sm z-10 px-4">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-rose-600 mb-8 sm:mb-10 md:mb-12 animate-fadeIn relative">
           <span className="relative inline-block">
@@ -504,7 +525,7 @@ function App() {
         </div>
       </section>
 
-      {/* Love Notes Section with responsive design */}
+      {/* Love Notes Section */}
       <section ref={notesRef} className="py-12 sm:py-16 md:py-20 w-full bg-white/90 backdrop-blur-sm z-10 px-4">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-rose-600 mb-6 sm:mb-8 animate-fadeIn relative">
           <span className="relative inline-block">
@@ -564,7 +585,7 @@ function App() {
         </div>
       </section>
 
-      {/* Heart Particle Animation - reduced number on mobile */}
+      {/* Heart Particle Animation */}
       {showHearts && (
         <div className="fixed inset-0 pointer-events-none z-20">
           {[...Array(window.innerWidth < 768 ? 15 : 25)].map((_, i) => {
@@ -590,7 +611,7 @@ function App() {
         </div>
       )}
 
-      {/* Footer with responsive design */}
+      {/* Footer */}
       <footer className="py-10 sm:py-12 md:py-16 w-full bg-white/80 backdrop-blur-md z-10 border-t border-rose-100">
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex flex-col items-center">
